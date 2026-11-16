@@ -694,7 +694,7 @@
 </div>
 
 <script>
-  // Mettez ici l'URL de votre application web Google Apps Script (/exec)
+  // Remplacez par votre URL de déploiement Google Apps Script (/exec)
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/VOTRE_URL_DEPLOIEMENT/exec";
   const ENTRY_FICHE_ACTIVITE = "entry.1295829567";
   const ENTRY_PHOTO_CONFERENCIER = "entry.2047491914";
@@ -831,7 +831,7 @@
       }
     });
 
-    for (const [key, value] of formData.entries()) {
+    for (let [key, value] of formData.entries()) {
       if (fields[key]) {
         fields[key] = Array.isArray(fields[key]) ? [...fields[key], value] : [fields[key], value];
       } else {
