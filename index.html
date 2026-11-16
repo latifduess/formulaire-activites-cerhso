@@ -746,18 +746,47 @@
     submitBtn.style.display = currentIndex === activeFlow.length - 1 ? "inline-block" : "none";
   }
 
-  function validateCurrentStep() {
+function validateCurrentStep() {
     const currentStepEl = allSteps.find(s => s.dataset.step === activeFlow[currentIndex]);
+    errorBox.style.display = "none"; // Masquer l'ancienne erreur
 
+    // 1. Vérification des groupes de cases à cocher obligatoires (ex: الوحدة, القاعة)
     const checkboxGroups = currentStepEl.querySelectorAll("[data-required-group]");
     for (const group of checkboxGroups) {
       const checked = group.querySelectorAll('input[type="checkbox"]:checked');
       if (checked.length === 0) {
-        alert("يرجى اختيار عنصر واحد على الأقل في حقل: " + group.dataset.requiredGroup);
-        group.scrollIntoView({ behavior: "smooth", block: "center" });
+        const groupName = group.dataset.requiredGroup;
+        errorBox.textContent = "يرجى اختيار عنصر واحد على الأقل في حقل: " + groupName;
+        errorBox.style.display = "block";
+        errorBox.scrollIntoView({ behavior: "smooth", block: "center" });
         return false;
       }
     }
+
+    // 2. Vérification des champs de texte / date obligatoires
+    const requiredInputs = currentStepEl.querySelectorAll("[required]");
+    for (const input of requiredInputs) {
+      if (!input.checkValidity()) {
+        input.reportValidity();
+        errorBox.textContent = "يرجى ملء جميع الحقول الإجبارية (المعلمة بنجمة *) في هذه الخطوة.";
+        errorBox.style.display = "block";
+        errorBox.scrollIntoView({ behavior: "smooth", block: "center" });
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  nextBtn.addEventListener("click", () => {
+    if (!validateCurrentStep()) return; // Bloque et affiche l'erreur si un champ manque
+    
+    if (currentIndex < activeFlow.length - 1) {
+      currentIndex++;
+      renderStep();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
 
     const requiredInputs = currentStepEl.querySelectorAll("[required]");
     for (const input of requiredInputs) {
