@@ -17,6 +17,8 @@
       --muted: #64748b;
       --border: #cbd5e1;
       --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --danger-border: #fca5a5;
     }
 
     * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
@@ -150,6 +152,31 @@
     .option-card:hover { border-color: var(--primary); background: #f0fdf4; }
     .option-card input { width: 17px; height: 17px; accent-color: var(--primary); cursor: pointer; flex-shrink: 0; }
 
+    .room-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 0.75rem;
+    }
+    .room-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0.85rem;
+    }
+    .room-thumb {
+      width: 48px;
+      height: 36px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .room-label {
+      flex-grow: 1;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+
     .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     @media (max-width: 640px) {
       .row-2 { grid-template-columns: 1fr; }
@@ -162,6 +189,7 @@
       margin-top: 2rem;
       padding-top: 1.25rem;
       border-top: 1px solid var(--border);
+      align-items: center;
     }
 
     .btn {
@@ -179,6 +207,20 @@
     .btn-next, .btn-submit { background: var(--primary); color: #fff; }
     .btn-next:hover, .btn-submit:hover { background: var(--primary-light); }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* --- Style pour l'indicateur d'erreur --- */
+    .error-box {
+      display: none;
+      background-color: var(--danger-bg);
+      border: 1.5px solid var(--danger-border);
+      color: #991b1b;
+      padding: 0.9rem 1.2rem;
+      border-radius: 8px;
+      margin-bottom: 1.2rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-align: center;
+    }
 
     .success-box {
       display: none;
@@ -257,12 +299,32 @@
 
       <div class="field">
         <label>القاعة <span class="req">*</span></label>
-        <div class="options-grid" data-required-group="القاعة">
-          <label class="option-card"><input type="checkbox" name="entry.1095686458" value="القاعة الكبرى 800"> القاعة الكبرى 800</label>
-          <label class="option-card"><input type="checkbox" name="entry.1095686458" value="الطابق الثالث 100"> الطابق الثالث 100</label>
-          <label class="option-card"><input type="checkbox" name="entry.1095686458" value="قاعة العرض 100"> قاعة العرض 100</label>
-          <label class="option-card"><input type="checkbox" name="entry.1095686458" value="القاعة الجديدة 180"> القاعة الجديدة 180</label>
-          <label class="option-card"><input type="checkbox" name="entry.1095686458" value="قاعة الاستوديو 40"> قاعة الاستوديو 40</label>
+        <div class="room-grid" data-required-group="القاعة">
+          <label class="option-card room-card">
+            <input type="checkbox" name="entry.1095686458" value="القاعة الكبرى 800">
+            <img src="https://images.unsplash.com/photo-1517502884422-41eaead166d4?auto=format&fit=crop&w=150&q=80" alt="القاعة الكبرى 800" class="room-thumb">
+            <span class="room-label">القاعة الكبرى 800</span>
+          </label>
+          <label class="option-card room-card">
+            <input type="checkbox" name="entry.1095686458" value="الطابق الثالث 100">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=150&q=80" alt="الطابق الثالث 100" class="room-thumb">
+            <span class="room-label">الطابق الثالث 100</span>
+          </label>
+          <label class="option-card room-card">
+            <input type="checkbox" name="entry.1095686458" value="قاعة العرض 100">
+            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=150&q=80" alt="قاعة العرض 100" class="room-thumb">
+            <span class="room-label">قاعة العرض 100</span>
+          </label>
+          <label class="option-card room-card">
+            <input type="checkbox" name="entry.1095686458" value="القاعة الجديدة 180">
+            <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=150&q=80" alt="القاعة الجديدة 180" class="room-thumb">
+            <span class="room-label">القاعة الجديدة 180</span>
+          </label>
+          <label class="option-card room-card">
+            <input type="checkbox" name="entry.1095686458" value="قاعة الاستوديو 40">
+            <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=150&q=80" alt="قاعة الاستوديو 40" class="room-thumb">
+            <span class="room-label">قاعة الاستوديو 40</span>
+          </label>
         </div>
       </div>
 
@@ -614,6 +676,11 @@
       </div>
     </div>
 
+    <!-- Bloc d'affichage d'erreur visuel -->
+    <div class="error-box" id="errorBox">
+      حدث خطأ أثناء إرسال البيانات أو رفع الملفات. يرجى التحقق من الاتصال والمحاولة مرة أخرى.
+    </div>
+
     <div class="nav-buttons">
       <button type="button" class="btn btn-prev" id="prevBtn" style="visibility:hidden;">السابق</button>
       <button type="button" class="btn btn-next" id="nextBtn">التالي</button>
@@ -629,7 +696,7 @@
 </div>
 
 <script>
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby13IPYELiWLzH6SfYY4hE-O0dOtH0HXeVnWiVAur7jnm0OkwA_EvzZiW40vdlLfXQl/exec";
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/VOTRE_URL_DEPLOIEMENT/exec";
   const ENTRY_FICHE_ACTIVITE = "entry.1295829567";
   const ENTRY_PHOTO_CONFERENCIER = "entry.2047491914";
 
@@ -638,6 +705,7 @@
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
   const submitBtn = document.getElementById("submitBtn");
+  const errorBox = document.getElementById("errorBox");
   const progressFill = document.getElementById("progressFill");
   const stepLabel = document.getElementById("stepLabel");
   const stepPercent = document.getElementById("stepPercent");
@@ -738,6 +806,8 @@
     e.preventDefault();
     if (!validateCurrentStep()) return;
 
+    // Masquer l'erreur précédente s'il y en avait une
+    errorBox.style.display = "none";
     submitBtn.disabled = true;
     submitBtn.textContent = "جاري رفع الملفات وإرسال الطلب...";
 
@@ -775,7 +845,7 @@
       const fileFiche = await fileToBase64(document.getElementById("fileFiche").files[0]);
       const filePhoto = await fileToBase64(document.getElementById("filePhoto").files[0]);
 
-      await fetch(APPS_SCRIPT_URL, {
+      const response = await fetch(APPS_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -792,7 +862,9 @@
       document.querySelector(".step-indicator").style.display = "none";
       document.getElementById("successBox").style.display = "block";
     } catch (err) {
-      alert("حدث خطأ أثناء رفع الملفات. يرجى المحاولة مرة أخرى.");
+      // Affichage de l'indicateur d'erreur sur la page
+      errorBox.style.display = "block";
+      errorBox.scrollIntoView({ behavior: "smooth", block: "center" });
       submitBtn.disabled = false;
       submitBtn.textContent = "إرسال الطلب";
     }
