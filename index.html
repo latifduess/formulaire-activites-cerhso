@@ -695,7 +695,7 @@
 
 <script>
   // Mettez ici l'URL de votre application web Google Apps Script (/exec)
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHo2ndB6f6kwWGqC_l_dDQKv1vlWqOuJCHe_sSMn-pxmQqkoVP28Nrw1RhTE07ixn1/exec";
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/VOTRE_URL_DEPLOIEMENT/exec";
   const ENTRY_FICHE_ACTIVITE = "entry.1295829567";
   const ENTRY_PHOTO_CONFERENCIER = "entry.2047491914";
 
@@ -801,7 +801,7 @@
     }
   });
 
-form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!validateCurrentStep()) return;
 
@@ -816,62 +816,6 @@ form.addEventListener("submit", async (e) => {
         });
       }
     });
-
-    const formData = new FormData(form);
-    const fields = {};
-
-    ["entry.647518802", "entry.1517983777"].forEach(name => {
-      const val = formData.get(name);
-      if (val) {
-        const [y, m, d] = val.split("-");
-        formData.delete(name);
-        fields[name + "_year"] = y;
-        fields[name + "_month"] = String(parseInt(m, 10));
-        fields[name + "_day"] = String(parseInt(d, 10));
-      }
-    });
-
-    for (let key, value of formData.entries()) {
-      if (fields[key]) {
-        fields[key] = Array.isArray(fields[key]) ? [...fields[key], value] : [fields[key], value];
-      } else {
-        fields[key] = value;
-      }
-    }
-
-    try {
-      const fileFiche = await fileToBase64(document.getElementById("fileFiche").files[0]);
-      const filePhoto = await fileToBase64(document.getElementById("filePhoto").files[0]);
-
-      const res = await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({
-          fields,
-          fileFiche,
-          filePhoto,
-          entryFicheId: ENTRY_FICHE_ACTIVITE,
-          entryPhotoId: ENTRY_PHOTO_CONFERENCIER
-        })
-      });
-
-      const result = await res.json();
-
-      if (result.status === "error") {
-        throw new Error(result.message);
-      }
-
-      form.style.display = "none";
-      document.querySelector(".step-indicator").style.display = "none";
-      document.getElementById("successBox").style.display = "block";
-    } catch (err) {
-      errorBox.textContent = "خطأ: " + err.message;
-      errorBox.style.display = "block";
-      errorBox.errorBox?.scrollIntoView?.({ behavior: "smooth", block: "center" });
-      submitBtn.disabled = false;
-      submitBtn.textContent = "إرسال الطلب";
-    }
-  });
 
     const formData = new FormData(form);
     const fields = {};
