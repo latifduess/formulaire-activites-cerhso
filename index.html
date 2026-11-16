@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استمارة تنظيم نشاط علمي — مركز الدراسات والبحوث الإنسانية والاجتماعية بوجدة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #14532d;
+      --primary-light: #166534;
+      --accent: #b45309;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, #064e3b 100%);
+      color: #fff;
+      padding: 2rem 2.5rem;
+      border-bottom: 4px solid var(--accent);
+    }
+
+    .header h1 { margin: 0 0 0.4rem; font-size: 1.55rem; font-weight: 700; }
+    .header p { margin: 0; opacity: 0.9; font-size: 0.95rem; }
+
+    .progress-bar {
+      display: flex;
+      background: #e2e8f0;
+      height: 6px;
+    }
+    .progress-fill {
+      background: var(--accent);
+      height: 100%;
+      width: 16.6%;
+      transition: width 0.35s ease;
+    }
+
+    .step-indicator {
+      padding: 1rem 2.5rem;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    form { padding: 2rem 2.5rem; }
+
+    .step { display: none; animation: fadeIn 0.3s ease; }
+    .step.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-title {
+      color: var(--primary);
+      font-size: 1.25rem;
+      margin: 0 0 0.3rem;
+      border-right: 4px solid var(--accent);
+      padding-right: 0.75rem;
+    }
+
+    .step-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 0 0 1.5rem;
+    }
+
+    .field { margin-bottom: 1.35rem; }
+    .field > label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      font-size: 0.95rem;
+    }
+    .req { color: var(--danger); margin-right: 3px; }
+    .hint { display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
+    input[type="file"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      background: #fff;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(20, 83, 45, 0.12);
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 0.65rem;
+    }
+
+    .option-card {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 0.85rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 0.9rem;
+    }
+
+    .option-card:hover { border-color: var(--primary); background: #f0fdf4; }
+    .option-card input { width: 17px; height: 17px; accent-color: var(--primary); cursor: pointer; flex-shrink: 0; }
+
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 640px) {
+      .row-2 { grid-template-columns: 1fr; }
+      form, .header, .step-indicator { padding-left: 1.25rem; padding-right: 1.25rem; }
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .btn-prev { background: #e2e8f0; color: var(--text); }
+    .btn-prev:hover { background: #cbd5e1; }
+    .btn-next, .btn-submit { background: var(--primary); color: #fff; }
+    .btn-next:hover, .btn-submit:hover { background: var(--primary-light); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .success-box {
+      display: none;
+      padding: 3.5rem 2rem;
+      text-align: center;
+    }
+    .success-box h2 { color: var(--primary); margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>استمارة طلب تنظيم نشاط علمي</h1>
+    <p>مركز الدراسات والبحوث الإنسانية والاجتماعية بوجدة (CERHSO)</p>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="step-indicator">
+    <span id="stepLabel">الخطوة 1 من 6 — المعلومات العامة ونوع النشاط</span>
+    <span id="stepPercent">17%</span>
+  </div>
+
+  <form id="cerhsoForm" novalidate>
+
+    <!-- ================= الخطوة 1 : المعلومات الأساسية ================= -->
+    <div class="step active" data-step="1" data-title="الخطوة 1 من 6 — المعلومات العامة ونوع النشاط">
+      <h2 class="step-title">المعلومات العامة</h2>
+      <p class="step-desc">يرجى تحديد الوحدة المنظمة ومعطيات المنسق ونوع النشاط.</p>
+
+      <div class="field">
+        <label>الوحدة <span class="req">*</span></label>
+        <span class="hint">الوحدة أو الفريق المنظم للنشاط.</span>
+        <div class="options-grid" data-required-group="الوحدة">
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="وحدة الدراسات اللغوية"> وحدة الدراسات اللغوية</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="وحدة الاجتهاد والتجديد ومستقبل الدين"> وحدة الاجتهاد والتجديد ومستقبل الدين</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="وحدة الدراسات الفنية"> وحدة الدراسات الفنية</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="وحدة البحث في الدراسات القانونية والعمل القضائي"> وحدة البحث في الدراسات القانونية والعمل القضائي</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="وحدة البحث فى السياسات والحكامة وقضايا الهجرة"> وحدة البحث فى السياسات والحكامة وقضايا الهجرة</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="وحدة الدراسات الاقتصادية"> وحدة الدراسات الاقتصادية</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="وحدة الدراسات الثقافية"> وحدة الدراسات الثقافية</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="وحدة الدراسات الاندلسية المغربية"> وحدة الدراسات الاندلسية المغربية</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="وحدة الدراسات الإفريقية"> وحدة الدراسات الإفريقية</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="وحدة القانون والتحول الرقمي"> وحدة القانون والتحول الرقمي</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="وحدة دراسات الصحة والمجتمع"> وحدة دراسات الصحة والمجتمع</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="منتدى الباحثين الشباب"> منتدى الباحثين الشباب</label>
+          <label class="option-card"><input type="checkbox" name="entry.556319853" value="Communication, médias et société et numérique"> Communication, médias et société et numérique</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="coordinateur">المنسق <span class="req">*</span></label>
+        <input type="text" id="coordinateur" name="entry.265086058" required>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="telephone">رقم الهاتف <span class="req">*</span></label>
+          <input type="tel" id="telephone" name="entry.1707681207" placeholder="مثال: 0612345678" required>
+        </div>
+        <div class="field">
+          <label for="email">البريد الإلكتروني <span class="req">*</span></label>
+          <input type="email" id="email" name="entry.142065305" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>نوع النشاط <span class="req">*</span></label>
+        <span class="hint">سيتم توجيهكم إلى الأسئلة الخاصة بالنشاط المختار.</span>
+        <div class="options-grid">
+          <label class="option-card"><input type="radio" name="entry.84700534" value="محاضرة علمية" required> محاضرة علمية</label>
+          <label class="option-card"><input type="radio" name="entry.84700534" value="ندوة / يوم دراسي / مائدة مستديرة"> ندوة / يوم دراسي / مائدة مستديرة</label>
+          <label class="option-card"><input type="radio" name="entry.84700534" value="تكوين لفائدة الباحثين"> تكوين لفائدة الباحثين</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>القاعة <span class="req">*</span></label>
+        <div class="options-grid" data-required-group="القاعة">
+          <label class="option-card"><input type="checkbox" name="entry.1095686458" value="القاعة الكبرى 800"> القاعة الكبرى 800</label>
+          <label class="option-card"><input type="checkbox" name="entry.1095686458" value="الطابق الثالث 100"> الطابق الثالث 100</label>
+          <label class="option-card"><input type="checkbox" name="entry.1095686458" value="قاعة العرض 100"> قاعة العرض 100</label>
+          <label class="option-card"><input type="checkbox" name="entry.1095686458" value="القاعة الجديدة 180"> القاعة الجديدة 180</label>
+          <label class="option-card"><input type="checkbox" name="entry.1095686458" value="قاعة الاستوديو 40"> قاعة الاستوديو 40</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>اللغات</label>
+        <div class="options-grid">
+          <label class="option-card"><input type="checkbox" name="entry.1524086820" value="العربية"> العربية</label>
+          <label class="option-card"><input type="checkbox" name="entry.1524086820" value="الأمازيغية"> الأمازيغية</label>
+          <label class="option-card"><input type="checkbox" name="entry.1524086820" value="الفرنسية"> الفرنسية</label>
+          <label class="option-card"><input type="checkbox" name="entry.1524086820" value="الإنجليزية"> الإنجليزية</label>
+          <label class="option-card"><input type="checkbox" name="entry.1524086820" value="الاسبانية"> الاسبانية</label>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="dateDebut">تاريخ البداية <span class="req">*</span></label>
+          <input type="date" id="dateDebut" name="entry.647518802" required>
+        </div>
+        <div class="field">
+          <label for="dateFin">تاريخ النهاية</label>
+          <input type="date" id="dateFin" name="entry.1517983777">
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= الخطوة 2A : محاضرة علمية ================= -->
+    <div class="step" data-step="2-conference" data-title="الخطوة 2 من 6 — تفاصيل المحاضرة العلمية">
+      <h2 class="step-title">تفاصيل المحاضرة العلمية</h2>
+      <p class="step-desc">محاضرة / سيرة باحث / بحث وباحث / مجلس الزجاجي / مناقشة فيلم</p>
+
+      <div class="field">
+        <label>صيغة المحاضرة <span class="req">*</span></label>
+        <div class="options-grid">
+          <label class="option-card"><input type="radio" name="entry.417665675" value="محاضرة" required> محاضرة</label>
+          <label class="option-card"><input type="radio" name="entry.417665675" value="سيرة باحث"> سيرة باحث</label>
+          <label class="option-card"><input type="radio" name="entry.417665675" value="بحث وباحث"> بحث وباحث</label>
+          <label class="option-card"><input type="radio" name="entry.417665675" value="مجلس الزجاجي"> مجلس الزجاجي</label>
+          <label class="option-card"><input type="radio" name="entry.417665675" value="مناقشة فيلم"> مناقشة فيلم</label>
+          <label class="option-card"><input type="radio" name="entry.417665675" value="أخرى"> أخرى</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>في حالة إختيار أخرى المرجو التحديد</label>
+        <input type="text" name="entry.487316437">
+      </div>
+
+      <div class="field">
+        <label>عنوان المحاضرة <span class="req">*</span></label>
+        <input type="text" name="entry.1087868208" required>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>اسم المحاضر <span class="req">*</span></label>
+          <input type="text" name="entry.1711733644" required>
+        </div>
+        <div class="field">
+          <label>صفته <span class="req">*</span></label>
+          <input type="text" name="entry.95698868" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>الجمهور المستهدف</label>
+        <div class="options-grid">
+          <label class="option-card"><input type="checkbox" name="entry.1291869454" value="أساتذة باحثون"> أساتذة باحثون</label>
+          <label class="option-card"><input type="checkbox" name="entry.1291869454" value="طلبة الدكتوراه"> طلبة الدكتوراه</label>
+          <label class="option-card"><input type="checkbox" name="entry.1291869454" value="طلبة الماستر"> طلبة الماستر</label>
+          <label class="option-card"><input type="checkbox" name="entry.1291869454" value="طلبة الإجازة"> طلبة الإجازة</label>
+          <label class="option-card"><input type="checkbox" name="entry.1291869454" value="العموم"> العموم</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>نوع التنظيم</label>
+        <div class="options-grid">
+          <label class="option-card"><input type="radio" name="entry.2090219439" value="حضوري"> حضوري</label>
+          <label class="option-card"><input type="radio" name="entry.2090219439" value="عن بعد"> عن بعد</label>
+          <label class="option-card"><input type="radio" name="entry.2090219439" value="مختلط"> مختلط</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>المطلوب قبل النشاط <span class="req">*</span></label>
+        <div class="options-grid" data-required-group="المطلوب قبل النشاط">
+          <label class="option-card"><input type="checkbox" name="entry.63001934" value="تصميم ملصق"> تصميم ملصق</label>
+          <label class="option-card"><input type="checkbox" name="entry.63001934" value="استمارة تسجيل"> استمارة تسجيل</label>
+          <label class="option-card"><input type="checkbox" name="entry.63001934" value="شواهد المشاركة"> شواهد المشاركة</label>
+          <label class="option-card"><input type="checkbox" name="entry.63001934" value="شارات الأسماء"> شارات الأسماء</label>
+          <label class="option-card"><input type="checkbox" name="entry.63001934" value="أخرى"> أخرى</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= الخطوة 2B : ندوة / يوم دراسي / مائدة مستديرة ================= -->
+    <div class="step" data-step="2-colloque" data-title="الخطوة 2 من 6 — تفاصيل الندوة / اليوم الدراسي / المائدة المستديرة">
+      <h2 class="step-title">تفاصيل الندوة / اليوم الدراسي / المائدة المستديرة</h2>
+      <p class="step-desc">معلومات خاصة بالنشاط المختار.</p>
+
+      <div class="field">
+        <label>صيغة النشاط <span class="req">*</span></label>
+        <div class="options-grid">
+          <label class="option-card"><input type="radio" name="entry.1076084877" value="ندوة" required> ندوة</label>
+          <label class="option-card"><input type="radio" name="entry.1076084877" value="يوم دراسي"> يوم دراسي</label>
+          <label class="option-card"><input type="radio" name="entry.1076084877" value="مائدة مستديرة"> مائدة مستديرة</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>عنوان الندوة <span class="req">*</span></label>
+        <input type="text" name="entry.1407038308" required>
+      </div>
+
+      <div class="field">
+        <label>الشركاء <span class="req">*</span></label>
+        <textarea name="entry.204067380" rows="2" required></textarea>
+      </div>
+
+      <div class="field">
+        <label>أسماء المتدخلين <span class="req">*</span></label>
+        <span class="hint">متدخل واحد في كل سطر.</span>
+        <textarea name="entry.233481276" rows="4" required></textarea>
+      </div>
+
+      <div class="field">
+        <label>الجمهور المستهدف</label>
+        <div class="options-grid">
+          <label class="option-card"><input type="checkbox" name="entry.130614344" value="أساتذة باحثون"> أساتذة باحثون</label>
+          <label class="option-card"><input type="checkbox" name="entry.130614344" value="طلبة الدكتوراه"> طلبة الدكتوراه</label>
+          <label class="option-card"><input type="checkbox" name="entry.130614344" value="طلبة الماستر"> طلبة الماستر</label>
+          <label class="option-card"><input type="checkbox" name="entry.130614344" value="طلبة الإجازة"> طلبة الإجازة</label>
+          <label class="option-card"><input type="checkbox" name="entry.130614344" value="العموم"> العموم</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>نوع التنظيم</label>
+        <div class="options-grid">
+          <label class="option-card"><input type="radio" name="entry.1573126481" value="حضوري"> حضوري</label>
+          <label class="option-card"><input type="radio" name="entry.1573126481" value="عن بعد"> عن بعد</label>
+          <label class="option-card"><input type="radio" name="entry.1573126481" value="مختلط"> مختلط</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>المطلوب قبل النشاط <span class="req">*</span></label>
+        <div class="options-grid" data-required-group="المطلوب قبل النشاط">
+          <label class="option-card"><input type="checkbox" name="entry.793044451" value="تصميم ملصق الندوة"> تصميم ملصق الندوة</label>
+          <label class="option-card"><input type="checkbox" name="entry.793044451" value="تصميم ملصق لكل جلسة"> تصميم ملصق لكل جلسة</label>
+          <label class="option-card"><input type="checkbox" name="entry.793044451" value="اللافتة"> اللافتة</label>
+          <label class="option-card"><input type="checkbox" name="entry.793044451" value="بيان صحفي / بلاغ إخباري"> بيان صحفي / بلاغ إخباري</label>
+          <label class="option-card"><input type="checkbox" name="entry.793044451" value="استمارة تسجيل"> استمارة تسجيل</label>
+          <label class="option-card"><input type="checkbox" name="entry.793044451" value="شواهد المشاركة"> شواهد المشاركة</label>
+          <label class="option-card"><input type="checkbox" name="entry.793044451" value="شارات الأسماء"> شارات الأسماء</label>
+          <label class="option-card"><input type="checkbox" name="entry.793044451" value="البرنامج"> البرنامج</label>
+          <label class="option-card"><input type="checkbox" name="entry.793044451" value="الملفات"> الملفات</label>
+          <label class="option-card"><input type="checkbox" name="entry.793044451" value="أخرى"> أخرى</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= الخطوة 2C : تكوين لفائدة الباحثين ================= -->
+    <div class="step" data-step="2-formation" data-title="الخطوة 2 من 6 — تفاصيل التكوين لفائدة الباحثين">
+      <h2 class="step-title">تفاصيل التكوين</h2>
+      <p class="step-desc">معلومات خاصة بالتكوين لفائدة الباحثين.</p>
+
+      <div class="field">
+        <label>عنوان التكوين <span class="req">*</span></label>
+        <input type="text" name="entry.1155007632" required>
+      </div>
+
+      <div class="field">
+        <label>تعريف مقتضب عن التكوين (في بضعة أسطر) <span class="req">*</span></label>
+        <textarea name="entry.1394574355" rows="3" required></textarea>
+      </div>
+
+      <div class="field">
+        <label>محاور التكوين</label>
+        <textarea name="entry.2146297554" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label>أهداف التكوين <span class="req">*</span></label>
+        <textarea name="entry.242328818" rows="3" required></textarea>
+      </div>
+
+      <div class="field">
+        <label>البرنامج التفصيلي للتكوين</label>
+        <textarea name="entry.476524523" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label>هيئة التكوين <span class="req">*</span></label>
+        <span class="hint">اسم مكوّن واحد في كل سطر.</span>
+        <textarea name="entry.1660305124" rows="3" required></textarea>
+      </div>
+
+      <div class="field">
+        <label>التعريف بالمُكَوِّن/المُكَوِّنين (نبذة مختصرة عن السيرة الذاتية)</label>
+        <textarea name="entry.1237587309" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label>المستهدفون من التكوين</label>
+        <textarea name="entry.375317090" rows="2"></textarea>
+      </div>
+
+      <div class="field">
+        <label>طريقة اختيار المتكونين</label>
+        <textarea name="entry.1852546557" rows="2"></textarea>
+      </div>
+
+      <div class="field">
+        <label>حاجيات التكوين</label>
+        <textarea name="entry.660794604" rows="2"></textarea>
+      </div>
+    </div>
+
+    <!-- ================= الخطوة 3 : البرمجة والتنظيم ================= -->
+    <div class="step" data-step="3" data-title="الخطوة 3 من 6 — البرمجة والتنظيم">
+      <h2 class="step-title">البرمجة والتنظيم</h2>
+      <p class="step-desc">موعد النشاط ومكانه والجمهور المستهدف.</p>
+
+      <div class="field">
+        <label for="fileFiche">ورقة النشاط (PDF / Word)</label>
+        <span class="hint">يمكنكم إرفاق ملف ورقة النشاط مباشرة من جهازكم.</span>
+        <input type="file" id="fileFiche" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+      </div>
+    </div>
+
+    <!-- ================= الخطوة 4 : التواصل والإعلام والنشر ================= -->
+    <div class="step" data-step="4" data-title="الخطوة 4 من 6 — التواصل والإعلام والنشر">
+      <h2 class="step-title">التواصل والإعلام والنشر</h2>
+      <p class="step-desc">اختيار نماذج التصميم وإرفاق صورة المحاضر أو الملفات المرفقة.</p>
+
+      <div class="row-2">
+        <div class="field">
+          <label>نموذج الصورة (1 إلى 4)</label>
+          <select name="entry.1722248890">
+            <option value="">-- اختر النموذج --</option>
+            <option value="1">نموذج 1</option>
+            <option value="2">نموذج 2</option>
+            <option value="3">نموذج 3</option>
+            <option value="4">نموذج 4</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>نموذج الخلفية (1 إلى 10)</label>
+          <select name="entry.779322566">
+            <option value="">-- اختر الخلفية --</option>
+            <option value="1">خلفية 1</option>
+            <option value="2">خلفية 2</option>
+            <option value="3">خلفية 3</option>
+            <option value="4">خلفية 4</option>
+            <option value="5">خلفية 5</option>
+            <option value="6">خلفية 6</option>
+            <option value="7">خلفية 7</option>
+            <option value="8">خلفية 8</option>
+            <option value="9">خلفية 9</option>
+            <option value="10">خلفية 10</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="filePhoto">المحتوى المطلوب توفيره للتصميم والنشر (صورة المحاضر)</label>
+        <span class="hint">يرجى إرفاق صورة المحاضر أو ملف مضغوط (ZIP / PDF / JPG / PNG).</span>
+        <input type="file" id="filePhoto" accept="image/*,.pdf,.zip,.rar">
+      </div>
+
+      <div class="field">
+        <label>قنوات النشر والترويج</label>
+        <div class="options-grid">
+          <label class="option-card"><input type="checkbox" name="entry.1156325490" value="صفحات التواصل الاجتماعي"> صفحات التواصل الاجتماعي</label>
+          <label class="option-card"><input type="checkbox" name="entry.1156325490" value="الموقع الإلكتروني"> الموقع الإلكتروني</label>
+          <label class="option-card"><input type="checkbox" name="entry.1156325490" value="يوتيوب"> يوتيوب</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>التغطية أثناء النشاط</label>
+        <div class="options-grid">
+          <label class="option-card"><input type="checkbox" name="entry.1121326605" value="تصوير فوتوغرافي"> تصوير فوتوغرافي</label>
+          <label class="option-card"><input type="checkbox" name="entry.1121326605" value="تصوير فيديو"> تصوير فيديو</label>
+          <label class="option-card"><input type="checkbox" name="entry.1121326605" value="تسجيل صوتي"> تسجيل صوتي</label>
+          <label class="option-card"><input type="checkbox" name="entry.1121326605" value="بث مباشر ***خاص بالندوات***"> بث مباشر (خاص بالندوات)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= الخطوة 5 : الإقامة والإطعام ================= -->
+    <div class="step" data-step="5" data-title="الخطوة 5 من 6 — الإقامة والإطعام">
+      <h2 class="step-title">الإقامة والإطعام</h2>
+      <p class="step-desc">أجيبوا عن أسئلة الإقامة فقط في حال الحاجة إليها.</p>
+
+      <div class="row-2">
+        <div class="field">
+          <label>هل هناك حاجة إلى الإقامة؟ <span class="req">*</span></label>
+          <div class="options-grid">
+            <label class="option-card"><input type="radio" name="entry.1919119586" value="نعم" required> نعم</label>
+            <label class="option-card"><input type="radio" name="entry.1919119586" value="لا"> لا</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>عدد الأشخاص المستفيدين من الإقامة (في حال نعم)</label>
+          <input type="number" name="entry.136399314" min="0">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>الوجبات المطلوبة</label>
+        <div class="options-grid">
+          <label class="option-card"><input type="checkbox" name="entry.595578012" value="استراحة شاي / قهوة"> استراحة شاي / قهوة</label>
+          <label class="option-card"><input type="checkbox" name="entry.595578012" value="الإفطار ***خاص بالندوات***"> الإفطار (خاص بالندوات)</label>
+          <label class="option-card"><input type="checkbox" name="entry.595578012" value="الغداء ***خاص بالندوات***"> الغداء (خاص بالندوات)</label>
+          <label class="option-card"><input type="checkbox" name="entry.595578012" value="العشاء ***خاص بالندوات***"> العشاء (خاص بالندوات)</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>تفاصيل أخرى: أماكن الإقامة مع عدد الأشخاص، وأنواع الغرف</label>
+        <span class="hint">اتبع النمط التالي: الإفطار: ... / الغداء: ... / العشاء: ... / استراحة قهوة: ...</span>
+        <textarea name="entry.2088943531" rows="4" placeholder="- الإفطار: ...
+- الغداء: ...
+- العشاء: ...
+- استراحة قهوة: ..."></textarea>
+      </div>
+    </div>
+
+    <!-- ================= الخطوة 6 : اللوجستيك والتجهيزات ================= -->
+    <div class="step" data-step="6" data-title="الخطوة 6 من 6 — اللوجستيك والتجهيزات">
+      <h2 class="step-title">اللوجستيك والتجهيزات</h2>
+      <p class="step-desc">الخطوة الأخيرة: حددوا التجهيزات المطلوبة ثم اضغطوا على «إرسال».</p>
+
+      <div class="field">
+        <label>الاحتياجات التقنية واللوجستية</label>
+        <div class="options-grid">
+          <label class="option-card"><input type="checkbox" name="entry.741983611" value="جهاز عرض وشاشة عرض"> جهاز عرض وشاشة عرض</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>ملاحظات أو احتياجات لوجستية إضافية</label>
+        <textarea name="entry.786434058" rows="4"></textarea>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-prev" id="prevBtn" style="visibility:hidden;">السابق</button>
+      <button type="button" class="btn btn-next" id="nextBtn">التالي</button>
+      <button type="submit" class="btn btn-submit" id="submitBtn" style="display:none;">إرسال الطلب</button>
+    </div>
+
+  </form>
+
+  <div class="success-box" id="successBox">
+    <h2>تم تسجيل طلبكم بنجاح</h2>
+    <p>شكراً لتواصلكم. تم رفع الملفات وإرسال معطيات النشاط العلمي إلى إدارة المركز.</p>
+  </div>
+</div>
+
+<script>
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby13IPYELiWLzH6SfYY4hE-O0dOtH0HXeVnWiVAur7jnm0OkwA_EvzZiW40vdlLfXQl/exec";
+  const ENTRY_FICHE_ACTIVITE = "entry.1295829567";
+  const ENTRY_PHOTO_CONFERENCIER = "entry.2047491914";
+
+  const form = document.getElementById("cerhsoForm");
+  const allSteps = Array.from(document.querySelectorAll(".step"));
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const submitBtn = document.getElementById("submitBtn");
+  const progressFill = document.getElementById("progressFill");
+  const stepLabel = document.getElementById("stepLabel");
+  const stepPercent = document.getElementById("stepPercent");
+
+  let activeFlow = ["1", "2-conference", "3", "4", "5", "6"];
+  let currentIndex = 0;
+
+  function updateFlow() {
+    const selectedType = form.querySelector('input[name="entry.84700534"]:checked')?.value;
+    let step2 = "2-conference";
+    if (selectedType === "ندوة / يوم دراسي / مائدة مستديرة") step2 = "2-colloque";
+    else if (selectedType === "تكوين لفائدة الباحثين") step2 = "2-formation";
+    activeFlow = ["1", step2, "3", "4", "5", "6"];
+  }
+
+  function renderStep() {
+    updateFlow();
+    const currentStepId = activeFlow[currentIndex];
+
+    allSteps.forEach(s => {
+      const isCurrent = s.dataset.step === currentStepId;
+      s.classList.toggle("active", isCurrent);
+
+      s.querySelectorAll("input, select, textarea").forEach(el => {
+        el.disabled = !isCurrent;
+      });
+
+      if (isCurrent) {
+        stepLabel.textContent = s.dataset.title;
+      }
+    });
+
+    const pct = Math.round(((currentIndex + 1) / activeFlow.length) * 100);
+    progressFill.style.width = pct + "%";
+    stepPercent.textContent = pct + "%";
+
+    prevBtn.style.visibility = currentIndex === 0 ? "hidden" : "visible";
+    nextBtn.style.display = currentIndex === activeFlow.length - 1 ? "none" : "inline-block";
+    submitBtn.style.display = currentIndex === activeFlow.length - 1 ? "inline-block" : "none";
+  }
+
+  function validateCurrentStep() {
+    const currentStepEl = allSteps.find(s => s.dataset.step === activeFlow[currentIndex]);
+
+    const checkboxGroups = currentStepEl.querySelectorAll("[data-required-group]");
+    for (const group of checkboxGroups) {
+      const checked = group.querySelectorAll('input[type="checkbox"]:checked');
+      if (checked.length === 0) {
+        alert("يرجى اختيار عنصر واحد على الأقل في حقل: " + group.dataset.requiredGroup);
+        group.scrollIntoView({ behavior: "smooth", block: "center" });
+        return false;
+      }
+    }
+
+    const requiredInputs = currentStepEl.querySelectorAll("[required]");
+    for (const input of requiredInputs) {
+      if (!input.checkValidity()) {
+        input.reportValidity();
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      if (!file) return resolve(null);
+      const reader = new FileReader();
+      reader.onload = () => resolve({
+        name: file.name,
+        mimeType: file.type || "application/octet-stream",
+        base64: reader.result.split(",")[1]
+      });
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  nextBtn.addEventListener("click", () => {
+    if (!validateCurrentStep()) return;
+    if (currentIndex < activeFlow.length - 1) {
+      currentIndex++;
+      renderStep();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+
+  prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderStep();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!validateCurrentStep()) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "جاري رفع الملفات وإرسال الطلب...";
+
+    allSteps.forEach(s => {
+      if (activeFlow.includes(s.dataset.step)) {
+        s.querySelectorAll("input, select, textarea").forEach(el => {
+          el.disabled = false;
+        });
+      }
+    });
+
+    const formData = new FormData(form);
+    const fields = {};
+
+    ["entry.647518802", "entry.1517983777"].forEach(name => {
+      const val = formData.get(name);
+      if (val) {
+        const [y, m, d] = val.split("-");
+        formData.delete(name);
+        fields[name + "_year"] = y;
+        fields[name + "_month"] = String(parseInt(m, 10));
+        fields[name + "_day"] = String(parseInt(d, 10));
+      }
+    });
+
+    for (const [key, value] of formData.entries()) {
+      if (fields[key]) {
+        fields[key] = Array.isArray(fields[key]) ? [...fields[key], value] : [fields[key], value];
+      } else {
+        fields[key] = value;
+      }
+    }
+
+    try {
+      const fileFiche = await fileToBase64(document.getElementById("fileFiche").files[0]);
+      const filePhoto = await fileToBase64(document.getElementById("filePhoto").files[0]);
+
+      await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          fields,
+          fileFiche,
+          filePhoto,
+          entryFicheId: ENTRY_FICHE_ACTIVITE,
+          entryPhotoId: ENTRY_PHOTO_CONFERENCIER
+        })
+      });
+
+      form.style.display = "none";
+      document.querySelector(".step-indicator").style.display = "none";
+      document.getElementById("successBox").style.display = "block";
+    } catch (err) {
+      alert("حدث خطأ أثناء رفع الملفات. يرجى المحاولة مرة أخرى.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "إرسال الطلب";
+    }
+  });
+
+  renderStep();
+</script>
+
+</body>
+</html>
