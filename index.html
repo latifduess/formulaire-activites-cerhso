@@ -101,7 +101,7 @@
   .field.has-error textarea,.field.has-error select{border-color:var(--red);background:#fffafa}
   .field.has-error .choices{outline:2px dashed #f2b8b8;outline-offset:6px;border-radius:10px}
 
-  input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],select,textarea{
+  input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],input[type=time],select,textarea{
     width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:.95rem;
     background:#fff;color:var(--ink);transition:border-color .2s,box-shadow .2s}
   textarea{resize:vertical;min-height:84px}
@@ -589,6 +589,18 @@
             <div class="err">تاريخ النهاية يجب أن يكون بعد تاريخ البداية.</div>
           </div>
         </div>
+        <div class="row-2">
+          <div class="field">
+            <label class="lbl" for="heureDebut">توقيت البداية<span class="req">*</span></label>
+            <input type="time" id="heureDebut" name="x.heure_debut" required>
+            <div class="err">يرجى تحديد توقيت البداية.</div>
+          </div>
+          <div class="field">
+            <label class="lbl" for="heureFin">توقيت النهاية</label>
+            <input type="time" id="heureFin" name="x.heure_fin">
+            <div class="err">توقيت النهاية يجب أن يكون بعد توقيت البداية.</div>
+          </div>
+        </div>
 
         <div class="field">
           <span class="lbl">القاعة<span class="req">*</span></span>
@@ -716,6 +728,10 @@
           <span class="lbl">الاحتياجات التقنية واللوجستية</span>
           <div class="choices compact">
             <label class="chip"><input type="checkbox" name="entry.741983611" value="جهاز عرض وشاشة عرض">جهاز عرض وشاشة عرض</label>
+            <label class="chip"><input type="checkbox" name="entry.741983611" value="نظام صوتي وميكروفونات (سلكية / لاسلكية)">نظام صوتي وميكروفونات</label>
+            <label class="chip"><input type="checkbox" name="entry.741983611" value="منصة وكراسي المنصة">منصة وكراسي المنصة</label>
+            <label class="chip"><input type="checkbox" name="entry.741983611" value="حاسوب محمول">حاسوب محمول</label>
+            <label class="chip"><input type="checkbox" name="entry.741983611" value="ربط بالإنترنت (Wi-Fi)">ربط بالإنترنت (Wi-Fi)</label>
           </div>
         </div>
         <div class="field">
@@ -878,6 +894,8 @@ function validateStep() {
   if (flow[current] === "3") {
     const d1 = $("#dateDebut").value, d2 = $("#dateFin").value;
     if (d1 && d2 && d2 < d1) { const f = $("#dateFin").closest(".field"); setError(f, true); firstBad ||= f; }
+    const h1 = $("#heureDebut").value, h2 = $("#heureFin").value;
+    if (h1 && h2 && (!d2 || d2 === d1) && h2 <= h1) { const f = $("#heureFin").closest(".field"); setError(f, true); firstBad ||= f; }
   }
   // Taille des fichiers
   $$("input[type=file]", stepEl).forEach(inp => {
