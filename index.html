@@ -305,6 +305,7 @@
             <span class="lbl">الوحدة / الفريق المنظم<span class="req">*</span></span>
             <span class="hint">يمكن اختيار أكثر من وحدة في حالة التنظيم المشترك.</span>
             <div class="choices" data-required-group>
+              <label class="chip"><input type="checkbox" name="entry.556319853" value="هيئة المركز">هيئة المركز</label>
               <label class="chip"><input type="checkbox" name="entry.556319853" value="وحدة الدراسات اللغوية">وحدة الدراسات اللغوية</label>
               <label class="chip"><input type="checkbox" name="entry.556319853" value="وحدة الاجتهاد والتجديد ومستقبل الدين">وحدة الاجتهاد والتجديد ومستقبل الدين</label>
               <label class="chip"><input type="checkbox" name="entry.556319853" value="وحدة الدراسات الفنية">وحدة الدراسات الفنية</label>
@@ -1125,6 +1126,18 @@ function renderPicker(key, items, loading) {
   }).join("");
 }
 
+// Comparaison tolérante des noms (espaces, ى/ي, أ/إ/آ/ا)
+const normLabel = s => String(s).trim().replace(/\s+/g, " ").replace(/ى/g, "ي").replace(/[أإآ]/g, "ا");
+function mergeByLabel(base, extra) {
+  const byName = new Map(extra.map(it => [normLabel(it.label), it]));
+  const merged = base.map(it => {
+    const hit = byName.get(normLabel(it.label));
+    if (hit) byName.delete(normLabel(it.label));
+    return hit ? { label: it.label, id: hit.id } : { label: it.label };
+  });
+  return merged.concat([...byName.values()]);
+}
+
 async function loadAssets() {
   Object.keys(PICKERS).forEach(k => renderPicker(k, null, true));
   let data = null;
@@ -1136,7 +1149,11 @@ async function loadAssets() {
   }
   if (data && data.logo) receiveLogo(data.logo);
   Object.keys(PICKERS).forEach(k => {
-    const list = data && Array.isArray(data[k]) && data[k].length ? data[k] : FALLBACK[k];
+    const fromDrive = data && Array.isArray(data[k]) ? data[k] : [];
+    // Salles : la liste fixe est toujours affichée ; la photo est ajoutée quand Drive en a une
+    // (même nom de fichier), et les salles présentes seulement dans Drive s'ajoutent à la suite.
+    const list = k === "rooms" ? mergeByLabel(FALLBACK.rooms, fromDrive)
+               : fromDrive.length ? fromDrive : FALLBACK[k];
     renderPicker(k, list);
   });
   if (flow[current] === "6") buildRecap();
