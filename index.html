@@ -11,19 +11,19 @@
   :root{
     --g900:#062e1b; --g800:#0b3d24; --g700:#14532d; --g600:#166534; --g500:#1f7a45;
     --g100:#dcfce7; --g50:#f0fdf4;
-    --gold:#b8862b; --gold-d:#8a6420; --gold-l:#fbf3e2;
+    --gold:#b8862b; --gold-2:#d9a441; --gold-d:#8a6420; --gold-l:#fbf3e2; --gold-line:#ecd9ae;
     --ink:#0f172a; --muted:#5b6b7f; --line:#d9e1ea; --bg:#eef2ef; --card:#fff;
     --red:#c62828; --red-bg:#fdecec;
     --radius:14px;
-    --shadow:0 1px 2px rgba(6,46,27,.06),0 12px 32px rgba(6,46,27,.08);
+    --shadow:0 1px 2px color-mix(in srgb,var(--g900) 6%,transparent),0 12px 32px color-mix(in srgb,var(--g900) 8%,transparent);
   }
   *{box-sizing:border-box}
   [hidden]{display:none!important}
   html{scroll-behavior:smooth}
   body{margin:0;font-family:'Cairo',system-ui,sans-serif;color:var(--ink);line-height:1.65;
     background:
-      radial-gradient(1200px 500px at 100% -10%, #d7eadf 0, transparent 60%),
-      radial-gradient(900px 400px at -10% 110%, #f3e8cf 0, transparent 55%),
+      radial-gradient(1200px 500px at 100% -10%, var(--g100) 0, transparent 60%),
+      radial-gradient(900px 400px at -10% 110%, var(--gold-l) 0, transparent 55%),
       var(--bg);
     min-height:100vh;padding:28px 14px 40px}
   .shell{max-width:880px;margin:0 auto}
@@ -34,10 +34,15 @@
       radial-gradient(circle at 1px 1px, rgba(255,255,255,.10) 1px, transparent 1.5px) 0 0/18px 18px,
       linear-gradient(135deg,var(--g700) 0%,var(--g800) 55%,var(--g900) 100%)}
   .hero::after{content:"";position:absolute;inset:auto -60px -90px auto;width:260px;height:260px;border-radius:50%;
-    border:28px solid rgba(184,134,43,.22)}
+    border:28px solid color-mix(in srgb,var(--gold) 25%,transparent)}
   .hero::before{content:"";position:absolute;inset:-70px auto auto -50px;width:180px;height:180px;border-radius:50%;
     border:18px solid rgba(255,255,255,.06)}
   .brand{display:flex;align-items:center;gap:12px;margin-bottom:18px;position:relative;z-index:1}
+  .logo-plate{flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:14px;transition:all .3s}
+  .logo-plate.has-logo{background:#fff;padding:8px 12px;box-shadow:0 8px 20px -10px rgba(0,0,0,.45),inset 0 -3px 0 color-mix(in srgb,var(--gold) 70%,transparent)}
+  .logo-plate img{display:block;height:64px;width:auto;max-width:280px;object-fit:contain}
+  .brand.wide-logo .brand-name{display:none}
+  .theme-ready .hero,.theme-ready .card{transition:background .4s}
   .mark{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:var(--gold);
     font-weight:800;font-size:1.05rem;letter-spacing:.5px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15);direction:ltr}
   .brand-name{font-weight:800;letter-spacing:2px;font-size:.95rem;direction:ltr;text-align:right}
@@ -47,7 +52,7 @@
 
   /* ---------- Stepper ---------- */
   .stepper-wrap{background:var(--card);border-bottom:1px solid var(--line);padding:18px 22px 0;position:sticky;top:0;z-index:20;
-    box-shadow:0 6px 14px -12px rgba(6,46,27,.35)}
+    box-shadow:0 6px 14px -12px color-mix(in srgb,var(--g900) 35%,transparent)}
   .stepper{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
   .stepper li{position:relative;text-align:center}
   .stepper li:not(:last-child)::after{content:"";position:absolute;top:17px;right:calc(50% + 20px);left:calc(-50% + 20px);
@@ -58,17 +63,17 @@
   .dot{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.9rem;
     background:#fff;border:2px solid var(--line);color:var(--muted);transition:all .25s}
   .stepper li.done .dot{background:var(--g600);border-color:var(--g600);color:#fff}
-  .stepper li.current .dot{border-color:var(--gold);color:var(--gold-d);background:var(--gold-l);box-shadow:0 0 0 5px rgba(184,134,43,.15)}
+  .stepper li.current .dot{border-color:var(--gold);color:var(--gold-d);background:var(--gold-l);box-shadow:0 0 0 5px color-mix(in srgb,var(--gold) 16%,transparent)}
   .stepper li.reachable:not(.current) button:hover .dot{transform:translateY(-2px)}
   .stepper .lbl-s{font-size:.74rem;color:var(--muted);font-weight:600;line-height:1.3}
   .stepper li.current .lbl-s{color:var(--ink)}
   .bar{height:4px;background:#edf1f4;margin:14px -22px 0}
-  .bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#d9a441);transition:width .4s ease}
+  .bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-2));transition:width .4s ease}
 
   /* ---------- Carte formulaire ---------- */
   .card{background:var(--card);border-radius:0 0 20px 20px;box-shadow:var(--shadow)}
   form{padding:30px 34px 26px}
-  .draft-banner{margin:18px 34px 0;padding:10px 14px;border-radius:10px;background:var(--gold-l);border:1px solid #ecd9ae;
+  .draft-banner{margin:18px 34px 0;padding:10px 14px;border-radius:10px;background:var(--gold-l);border:1px solid var(--gold-line);
     font-size:.86rem;display:flex;gap:10px;align-items:center;justify-content:space-between}
   .draft-banner button{all:unset;cursor:pointer;color:var(--gold-d);font-weight:700;text-decoration:underline}
 
@@ -83,7 +88,7 @@
 
   .section{border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 4px;margin-bottom:18px;background:#fcfdfc}
   .section-title{font-size:.8rem;font-weight:700;color:var(--gold-d);letter-spacing:.3px;margin:-4px 0 12px;display:flex;align-items:center;gap:8px}
-  .section-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#ecd9ae)}
+  .section-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-line))}
 
   .field{margin-bottom:16px}
   .lbl{display:block;font-weight:700;font-size:.93rem;margin-bottom:6px}
@@ -99,7 +104,7 @@
     width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:.95rem;
     background:#fff;color:var(--ink);transition:border-color .2s,box-shadow .2s}
   textarea{resize:vertical;min-height:84px}
-  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g600);box-shadow:0 0 0 4px rgba(22,101,52,.12)}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g600);box-shadow:0 0 0 4px color-mix(in srgb,var(--g600) 14%,transparent)}
   input[type=tel]{direction:ltr;text-align:right}
   .row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 
@@ -121,7 +126,7 @@
   .type{position:relative;cursor:pointer;border:2px solid var(--line);border-radius:16px;padding:18px 16px 16px;background:#fff;
     transition:all .2s;display:flex;flex-direction:column;gap:6px}
   .type input{position:absolute;opacity:0;pointer-events:none}
-  .type:hover{border-color:var(--g500);transform:translateY(-2px);box-shadow:0 10px 20px -14px rgba(6,46,27,.5)}
+  .type:hover{border-color:var(--g500);transform:translateY(-2px);box-shadow:0 10px 20px -14px color-mix(in srgb,var(--g900) 50%,transparent)}
   .type .ico{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:var(--g50);color:var(--g700);transition:all .2s}
   .type svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   .type strong{font-size:1rem;color:var(--g800);margin-top:4px}
@@ -142,8 +147,44 @@
   .room-cap svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
   .room:has(input:checked){border-color:var(--g600);background:var(--g50);box-shadow:inset 0 0 0 1px var(--g600)}
 
+  /* Choix illustrés (salles, cadres, fonds) */
+  .pick-grid{display:grid;gap:10px}
+  .rooms-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+  .models-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .pick{position:relative;display:flex;align-items:center;gap:12px;padding:10px;border:1.5px solid var(--line);border-radius:12px;
+    background:#fff;cursor:pointer;transition:all .15s}
+  .pick:hover{border-color:var(--g500);background:var(--g50)}
+  .pick:has(input:checked){border-color:var(--g600);background:var(--g50);box-shadow:inset 0 0 0 1px var(--g600)}
+  .pick input{width:18px;height:18px;margin:0;flex-shrink:0;accent-color:var(--g600);cursor:pointer}
+  .thumb{position:relative;flex-shrink:0;width:112px;height:78px;border-radius:9px;overflow:hidden;background:#eef2f0;border:1px solid var(--line)}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+  .pick:hover .thumb img{transform:scale(1.05)}
+  .thumb .noimg{position:absolute;inset:0;display:grid;place-items:center;color:#9aa8b5}
+  .thumb .noimg svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.6}
+  .zoom{position:absolute;bottom:4px;left:4px;width:26px;height:26px;border-radius:7px;border:none;cursor:zoom-in;
+    background:color-mix(in srgb,var(--g900) 78%,transparent);color:#fff;font-size:13px;display:grid;place-items:center;padding:0}
+  .zoom:hover{background:var(--g700)}
+  .pick-text{display:flex;flex-direction:column;min-width:0}
+  .pick-text strong{font-size:.9rem}
+  .pick-text small{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+  /* cadres / fonds : vignette au-dessus, case en dessous */
+  .models-grid .pick{flex-direction:column;align-items:stretch;gap:8px;padding:8px}
+  .models-grid .thumb{width:100%;height:auto;aspect-ratio:4/5;order:-1}
+  .models-grid .pick-row{display:flex;align-items:center;gap:8px;font-size:.86rem;font-weight:600;padding:0 2px}
+  .skel{height:98px;border-radius:12px;background:linear-gradient(90deg,#eef2f0 0,#f8faf9 50%,#eef2f0 100%) 0 0/200% 100%;animation:sk 1.2s linear infinite}
+  .models-grid .skel{height:auto;aspect-ratio:4/5.6}
+  @keyframes sk{to{background-position:-200% 0}}
+  .assets-note{font-size:.78rem;color:var(--muted);margin-top:6px}
+
+  /* Visionneuse */
+  .lightbox{position:fixed;inset:0;z-index:100;background:color-mix(in srgb,var(--g900) 88%,black);display:none;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+  .lightbox.show{display:flex;animation:in .2s ease}
+  .lightbox figure{margin:0;max-width:min(1000px,100%);text-align:center}
+  .lightbox img{max-width:100%;max-height:80vh;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,.5);background:#222}
+  .lightbox figcaption{color:#fff;margin-top:10px;font-weight:700}
+
   /* Dépôt de fichiers */
-  .drop{position:relative;display:flex;align-items:center;gap:14px;padding:18px;border:2px dashed #c6d3cb;border-radius:14px;
+  .drop{position:relative;display:flex;align-items:center;gap:14px;padding:18px;border:2px dashed color-mix(in srgb,var(--g600) 25%,#d9e1ea);border-radius:14px;
     background:#fbfdfb;transition:all .2s;cursor:pointer}
   .drop:hover,.drop.over{border-color:var(--g600);background:var(--g50)}
   .drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
@@ -160,7 +201,7 @@
   .cond.show{display:block;animation:in .25s ease}
 
   /* Récapitulatif */
-  .recap{border:1px solid #ecd9ae;background:linear-gradient(180deg,var(--gold-l),#fff 60%);border-radius:var(--radius);padding:18px 20px;margin-top:8px}
+  .recap{border:1px solid var(--gold-line);background:linear-gradient(180deg,var(--gold-l),#fff 60%);border-radius:var(--radius);padding:18px 20px;margin-top:8px}
   .recap h3{margin:0 0 10px;font-size:1rem;color:var(--gold-d);display:flex;align-items:center;gap:8px}
   .recap-group{margin-top:12px}
   .recap-group h4{margin:0 0 6px;font-size:.82rem;color:var(--g700);display:flex;justify-content:space-between;align-items:center}
@@ -177,9 +218,9 @@
   .btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
   .btn-ghost{background:#eef2f0;color:var(--ink)}
   .btn-ghost:hover{background:#e1e8e4}
-  .btn-main{background:var(--g700);color:#fff;box-shadow:0 8px 18px -10px rgba(20,83,45,.8)}
+  .btn-main{background:var(--g700);color:#fff;box-shadow:0 8px 18px -10px color-mix(in srgb,var(--g700) 80%,transparent)}
   .btn-main:hover{background:var(--g600);transform:translateY(-1px)}
-  .btn-gold{background:linear-gradient(135deg,var(--gold),#d39e3d);color:#fff;box-shadow:0 8px 18px -10px rgba(138,100,32,.9)}
+  .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#fff;box-shadow:0 8px 18px -10px color-mix(in srgb,var(--gold-d) 90%,transparent)}
   .btn-gold:hover{filter:brightness(1.05);transform:translateY(-1px)}
   .btn:disabled{opacity:.6;cursor:wait;transform:none}
   .spin{width:16px;height:16px;border-radius:50%;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;animation:sp .8s linear infinite}
@@ -194,11 +235,12 @@
   @keyframes draw{to{stroke-dashoffset:0}}
   .success h2{font-family:'Amiri',serif;font-size:1.8rem;color:var(--g800);margin:0 0 6px}
   .success p{color:var(--muted);margin:0 auto 18px;max-width:460px}
-  .ref{display:inline-block;direction:ltr;font-weight:800;letter-spacing:1px;padding:8px 18px;border-radius:10px;background:var(--gold-l);color:var(--gold-d);border:1px dashed #d9bd80;margin-bottom:22px}
+  .ref{display:inline-block;direction:ltr;font-weight:800;letter-spacing:1px;padding:8px 18px;border-radius:10px;background:var(--gold-l);color:var(--gold-d);border:1px dashed var(--gold-line);margin-bottom:22px}
 
   footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:18px}
 
   @media (max-width:700px){
+    .logo-plate img{height:48px;max-width:200px}
     body{padding:0 0 30px}
     .hero{border-radius:0;padding:22px 20px}
     .hero h1{font-size:1.6rem}
@@ -223,8 +265,11 @@
 
   <header class="hero">
     <div class="brand">
-      <div class="mark">CE</div>
-      <div>
+      <div class="logo-plate" id="logoPlate">
+        <img id="logoImg" alt="شعار CERHSO" hidden>
+        <div class="mark" id="logoFallback">CE</div>
+      </div>
+      <div class="brand-txt">
         <div class="brand-name">CERHSO</div>
         <div class="brand-sub">مركز الدراسات والبحوث الإنسانية والاجتماعية — وجدة</div>
       </div>
@@ -545,13 +590,8 @@
 
         <div class="field">
           <span class="lbl">القاعة<span class="req">*</span></span>
-          <div class="rooms choices" data-required-group>
-            <label class="room"><input type="checkbox" name="entry.1095686458" value="القاعة الكبرى 800"><span class="room-name">القاعة الكبرى</span><span class="room-cap"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>800 مقعد</span></label>
-            <label class="room"><input type="checkbox" name="entry.1095686458" value="القاعة الجديدة 180"><span class="room-name">القاعة الجديدة</span><span class="room-cap"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>180 مقعدًا</span></label>
-            <label class="room"><input type="checkbox" name="entry.1095686458" value="الطابق الثالث 100"><span class="room-name">الطابق الثالث</span><span class="room-cap"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>100 مقعد</span></label>
-            <label class="room"><input type="checkbox" name="entry.1095686458" value="قاعة العرض 100"><span class="room-name">قاعة العرض</span><span class="room-cap"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>100 مقعد</span></label>
-            <label class="room"><input type="checkbox" name="entry.1095686458" value="قاعة الاستوديو 40"><span class="room-name">قاعة الاستوديو</span><span class="room-cap"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>40 مقعدًا</span></label>
-          </div>
+          <span class="hint">يمكن اختيار أكثر من قاعة. انقروا على 🔍 لتكبير الصورة.</span>
+          <div class="pick-grid rooms-grid choices" id="roomsPicker" data-required-group></div>
           <div class="err">يرجى اختيار قاعة واحدة على الأقل.</div>
         </div>
 
@@ -585,25 +625,14 @@
           <p>نماذج التصميم، المحتوى المطلوب، قنوات النشر والتغطية.</p>
         </div></div>
 
-        <div class="row-2">
-          <div class="field">
-            <label class="lbl">نموذج الصورة</label>
-            <select name="entry.1722248890">
-              <option value="">— اختر النموذج —</option>
-              <option value="1">نموذج 1</option><option value="2">نموذج 2</option>
-              <option value="3">نموذج 3</option><option value="4">نموذج 4</option>
-            </select>
-          </div>
-          <div class="field">
-            <label class="lbl">نموذج الخلفية</label>
-            <select name="entry.779322566">
-              <option value="">— اختر الخلفية —</option>
-              <option value="1">خلفية 1</option><option value="2">خلفية 2</option><option value="3">خلفية 3</option>
-              <option value="4">خلفية 4</option><option value="5">خلفية 5</option><option value="6">خلفية 6</option>
-              <option value="7">خلفية 7</option><option value="8">خلفية 8</option><option value="9">خلفية 9</option>
-              <option value="10">خلفية 10</option>
-            </select>
-          </div>
+        <div class="field">
+          <span class="lbl">نموذج إطار صورة الملصق</span>
+          <span class="hint">اختاروا الإطار الذي ستوضع فيه صورة المحاضر على الملصق.</span>
+          <div class="pick-grid models-grid" id="framesPicker"></div>
+        </div>
+        <div class="field">
+          <span class="lbl">نموذج الخلفية</span>
+          <div class="pick-grid models-grid" id="bgPicker"></div>
         </div>
 
         <div class="field">
@@ -717,13 +746,15 @@
     </section>
   </div>
 
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true"><figure><img alt=""><figcaption></figcaption></figure></div>
+
   <footer>مركز الدراسات والبحوث الإنسانية والاجتماعية بوجدة — CERHSO</footer>
 </div>
 
 <script>
 /* ====== CONFIGURATION ====== */
 // URL de déploiement de l'application Web Apps Script (se termine par /exec)
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHo2ndB6f6kwWGqC_l_dDQKv1vlWqOuJCHe_sSMn-pxmQqkoVP28Nrw1RhTE07ixn1/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/VOTRE_URL_DEPLOIEMENT/exec";
 const MAX_FILE_MB = 10;
 const DRAFT_KEY = "cerhso_activity_draft_v2";
 const TYPE_FIELD = "entry.84700534";
@@ -952,7 +983,7 @@ function buildRecap() {
       $$("input,select,textarea", f).forEach(el => {
         if (el.disabled) return;
         if (el.type === "file") { if (el.files[0]) vals.push(el.files[0].name); return; }
-        if (el.type === "checkbox" || el.type === "radio") { if (el.checked) vals.push(el.closest("label").childNodes[1]?.textContent.trim() || el.value); return; }
+        if (el.type === "checkbox" || el.type === "radio") { if (el.checked) vals.push(el.dataset.label || el.closest("label").childNodes[1]?.textContent.trim() || el.value); return; }
         if (el.tagName === "SELECT") { if (el.value) vals.push(el.options[el.selectedIndex].text); return; }
         if (el.value.trim()) vals.push(el.value.trim());
       });
@@ -1051,7 +1082,184 @@ form.addEventListener("submit", async e => {
 
 $("#newRequest").addEventListener("click", () => location.reload());
 
+/* ====== Choix illustrés : salles, cadres, fonds (photos lues depuis Drive par Apps Script) ====== */
+// Valeurs utilisées si les photos ne peuvent pas être chargées
+const FALLBACK = {
+  rooms: ["القاعة الكبرى 800", "القاعة الجديدة 180", "الطابق الثالث 100", "قاعة العرض 100", "قاعة الاستوديو 40"].map(l => ({ label: l })),
+  frames: [1, 2, 3, 4].map(n => ({ label: "نموذج " + n })),
+  backgrounds: Array.from({ length: 10 }, (_, i) => ({ label: "خلفية " + (i + 1) }))
+};
+const PICKERS = {
+  rooms:       { el: "#roomsPicker",  name: "entry.1095686458", type: "checkbox" },
+  frames:      { el: "#framesPicker", name: "entry.1722248890", type: "radio" },
+  backgrounds: { el: "#bgPicker",     name: "entry.779322566",  type: "radio" }
+};
+const thumbUrl = (id, w) => `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w${w}`;
+const NOIMG = '<span class="noimg"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg></span>';
+const SEAT = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>';
+
+function renderPicker(key, items, loading) {
+  const cfg = PICKERS[key];
+  const box = $(cfg.el);
+  if (loading) { box.innerHTML = '<div class="skel"></div>'.repeat(key === "rooms" ? 4 : 4); return; }
+  // garder les choix déjà faits (ou restaurés depuis le brouillon)
+  let keep = $$(`input[name="${cfg.name}"]:checked`, box).map(i => i.value);
+  if (!keep.length) { try { keep = [].concat(JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}")[cfg.name] || []); } catch (_) {} }
+
+  box.innerHTML = items.map(it => {
+    const value = it.label;
+    const img = it.id
+      ? `<img src="${thumbUrl(it.id, 400)}" alt="${esc(value)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(document.createRange().createContextualFragment(NOIMG))">
+         <button type="button" class="zoom" data-zoom="${esc(it.id)}" data-cap="${esc(value)}" aria-label="تكبير">🔍</button>`
+      : NOIMG;
+    const input = `<input type="${cfg.type}" name="${cfg.name}" value="${esc(value)}" data-label="${esc(value)}"${keep.includes(value) ? " checked" : ""}>`;
+    if (key === "rooms") {
+      const m = value.match(/^(.*?)\s*(\d+)\s*$/);           // « القاعة الكبرى 800 » → nom + capacité
+      const name = m ? m[1] : value, cap = m ? m[2] : "";
+      return `<label class="pick">${input}<span class="thumb">${img}</span>
+        <span class="pick-text"><strong>${esc(name)}</strong>${cap ? `<small>${SEAT}${cap} مقعد</small>` : ""}</span></label>`;
+    }
+    // la case doit précéder le bouton 🔍 dans le DOM, sinon le clic sur la carte vise le bouton
+    return `<label class="pick"><span class="pick-row">${input}${esc(value)}</span><span class="thumb">${img}</span></label>`;
+  }).join("");
+}
+
+async function loadAssets() {
+  Object.keys(PICKERS).forEach(k => renderPicker(k, null, true));
+  let data = null;
+  if (!APPS_SCRIPT_URL.includes("VOTRE_URL")) {
+    try {
+      const res = await fetch(APPS_SCRIPT_URL + "?action=assets");
+      data = await res.json();
+    } catch (err) { console.warn("Photos non chargées :", err); }
+  }
+  if (data && data.logo) receiveLogo(data.logo);
+  Object.keys(PICKERS).forEach(k => {
+    const list = data && Array.isArray(data[k]) && data[k].length ? data[k] : FALLBACK[k];
+    renderPicker(k, list);
+  });
+  if (flow[current] === "6") buildRecap();
+}
+
+/* Visionneuse : agrandir une photo sans cocher la case */
+const lightbox = $("#lightbox");
+document.addEventListener("click", e => {
+  const z = e.target.closest("[data-zoom]");
+  if (z) {
+    e.preventDefault(); e.stopPropagation();
+    $("img", lightbox).src = thumbUrl(z.dataset.zoom, 1600);
+    $("figcaption", lightbox).textContent = z.dataset.cap;
+    lightbox.classList.add("show");
+  } else if (e.target.closest("#lightbox")) {
+    lightbox.classList.remove("show");
+  }
+}, true);
+document.addEventListener("keydown", e => { if (e.key === "Escape") lightbox.classList.remove("show"); });
+
+/* ====== Logo + thème automatique tiré des couleurs du logo ====== */
+// Pour fixer les couleurs à la main, remplacez null par ex. { primary: "#1d4e89", accent: "#c9a227" }
+const THEME_OVERRIDE = null;
+const THEME_KEY = "cerhso_theme_v1", LOGO_KEY = "cerhso_logo_v1";
+
+function rgb2hsl(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2;
+  if (mx === mn) return [0, 0, l];
+  const d = mx - mn, s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn);
+  const h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return [h * 60, s, l];
+}
+function hex2hsl(hex) {
+  const n = parseInt(hex.replace("#", ""), 16);
+  return rgb2hsl(n >> 16 & 255, n >> 8 & 255, n & 255);
+}
+const hsl = (h, s, l) => `hsl(${h.toFixed(0)} ${(s * 100).toFixed(0)}% ${(l * 100).toFixed(0)}%)`;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+/** Teinte dominante et teinte d'accent du logo (ignore blanc, noir et gris). */
+function extractPalette(img) {
+  const W = 90, H = Math.max(1, Math.round(W * img.naturalHeight / img.naturalWidth));
+  const c = document.createElement("canvas"); c.width = W; c.height = H;
+  const ctx = c.getContext("2d", { willReadFrequently: true });
+  ctx.drawImage(img, 0, 0, W, H);
+  const px = ctx.getImageData(0, 0, W, H).data;
+  const bins = Array.from({ length: 36 }, () => ({ w: 0, s: 0 }));
+  for (let i = 0; i < px.length; i += 4) {
+    if (px[i + 3] < 200) continue;
+    const [h, s, l] = rgb2hsl(px[i], px[i + 1], px[i + 2]);
+    if (s < .22 || l < .1 || l > .92) continue;
+    const w = s * (1 - Math.abs(l - .5)), b = bins[Math.floor(h / 10) % 36];
+    b.w += w; b.s += s * w;
+  }
+  const score = i => bins[(i + 35) % 36].w + bins[i].w + bins[(i + 1) % 36].w;
+  let p = 0; for (let i = 1; i < 36; i++) if (score(i) > score(p)) p = i;
+  if (!score(p)) return null;
+  let a = -1;
+  for (let i = 0; i < 36; i++) {
+    const dist = Math.min(Math.abs(i - p), 36 - Math.abs(i - p));
+    if (dist >= 5 && score(i) > score(p) * .08 && (a < 0 || score(i) > score(a))) a = i;
+  }
+  const pack = i => ({ h: i * 10 + 5, s: bins[i].w ? bins[i].s / bins[i].w : .6 });
+  return { primary: pack(p), accent: a >= 0 ? pack(a) : null };
+}
+
+function applyTheme(t) {
+  if (!t || !t.primary) return;
+  const root = document.documentElement.style;
+  const { h, s: s0 } = t.primary, s = clamp(s0, .35, .85);
+  [["--g900", .12], ["--g800", .18], ["--g700", .25], ["--g600", .32], ["--g500", .40]]
+    .forEach(([v, l]) => root.setProperty(v, hsl(h, s, l)));
+  root.setProperty("--g100", hsl(h, Math.min(s, .6), .90));
+  root.setProperty("--g50", hsl(h, Math.min(s, .6), .965));
+  root.setProperty("--bg", hsl(h, .12, .94));
+  if (t.accent) {
+    const ah = t.accent.h, as = clamp(t.accent.s, .5, .9);
+    root.setProperty("--gold", hsl(ah, as, .45));
+    root.setProperty("--gold-2", hsl(ah, as, .55));
+    root.setProperty("--gold-d", hsl(ah, as, .32));
+    root.setProperty("--gold-l", hsl(ah, Math.min(as, .7), .95));
+    root.setProperty("--gold-line", hsl(ah, Math.min(as, .6), .82));
+  }
+  document.body.classList.add("theme-ready");
+}
+
+function showLogo(src) {
+  const img = $("#logoImg");
+  img.onload = () => {
+    img.hidden = false;
+    $("#logoFallback").hidden = true;
+    $("#logoPlate").classList.add("has-logo");
+    $(".brand").classList.toggle("wide-logo", img.naturalWidth / img.naturalHeight > 2.2);
+    if (THEME_OVERRIDE) return;
+    try {
+      const pal = extractPalette(img);
+      if (pal) { applyTheme(pal); try { localStorage.setItem(THEME_KEY, JSON.stringify(pal)); } catch (_) {} }
+    } catch (e) { console.warn("Couleurs du logo non lues :", e); }
+  };
+  img.src = src;
+}
+
+function initTheme() {
+  if (THEME_OVERRIDE) {
+    const [ph, ps] = hex2hsl(THEME_OVERRIDE.primary);
+    const acc = THEME_OVERRIDE.accent ? hex2hsl(THEME_OVERRIDE.accent) : null;
+    applyTheme({ primary: { h: ph, s: ps }, accent: acc && { h: acc[0], s: acc[1] } });
+  } else {
+    try { applyTheme(JSON.parse(localStorage.getItem(THEME_KEY) || "null")); } catch (_) {}
+  }
+  try { const cached = localStorage.getItem(LOGO_KEY); if (cached) showLogo(cached); } catch (_) {}
+}
+
+function receiveLogo(logo) {
+  if (!logo || !logo.dataUrl) return;
+  try { localStorage.setItem(LOGO_KEY, logo.dataUrl); } catch (_) {}
+  showLogo(logo.dataUrl);
+}
+
 /* ====== Démarrage ====== */
+initTheme();
+Object.keys(PICKERS).forEach(k => renderPicker(k, FALLBACK[k]));
+loadAssets();
 restoreDraft();
 updateCounters();
 render();
