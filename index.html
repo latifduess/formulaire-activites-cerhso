@@ -37,7 +37,7 @@
     border:28px solid color-mix(in srgb,var(--gold) 25%,transparent)}
   .hero::before{content:"";position:absolute;inset:-70px auto auto -50px;width:180px;height:180px;border-radius:50%;
     border:18px solid rgba(255,255,255,.06)}
-  .brand{display:flex;align-items:center;gap:12px;margin-bottom:18px;position:relative;z-index:1}
+  .brand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:18px;position:relative;z-index:1}
   .logo-plate{flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:14px;transition:all .3s}
   .logo-plate.has-logo{background:#fff;padding:8px 12px;box-shadow:0 8px 20px -10px rgba(0,0,0,.45),inset 0 -3px 0 color-mix(in srgb,var(--gold) 70%,transparent)}
   .logo-plate img{display:block;height:116px;width:auto;max-width:340px;object-fit:contain}
@@ -48,8 +48,8 @@
     font-weight:800;font-size:1.05rem;letter-spacing:.5px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15);direction:ltr}
   .brand-name{font-weight:800;letter-spacing:2px;font-size:.95rem;direction:ltr;text-align:right}
   .brand-sub{font-size:.8rem;opacity:.85}
-  .hero h1{font-family:'Amiri',serif;font-size:2rem;line-height:1.3;margin:0 0 6px;position:relative;z-index:1}
-  .hero p{margin:0;opacity:.88;font-size:.92rem;max-width:560px;position:relative;z-index:1}
+  .hero h1{font-family:'Amiri',serif;font-size:2rem;line-height:1.3;margin:0 0 6px;position:relative;z-index:1;text-align:center}
+  .hero p{margin:0 auto;opacity:.88;font-size:.92rem;max-width:560px;position:relative;z-index:1;text-align:center}
 
   /* ---------- Stepper ---------- */
   .stepper-wrap{background:var(--card);border-bottom:1px solid var(--line);padding:18px 22px 0;position:sticky;top:0;z-index:20;
@@ -183,6 +183,27 @@
   .lightbox figure{margin:0;max-width:min(1000px,100%);text-align:center}
   .lightbox img{max-width:100%;max-height:80vh;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,.5);background:#222}
   .lightbox figcaption{color:#fff;margin-top:10px;font-weight:700}
+
+  /* Tableaux à lignes variables (séances, hébergement, repas) */
+  .rep{display:flex;flex-direction:column;gap:8px}
+  .rep-row{display:flex;align-items:flex-start;gap:10px;padding:10px 10px 10px 8px;border:1.5px solid var(--line);border-radius:12px;background:#fff;animation:in .25s ease}
+  .rep-row:focus-within{border-color:var(--g500);box-shadow:0 0 0 3px color-mix(in srgb,var(--g600) 10%,transparent)}
+  .rep-num{flex-shrink:0;min-width:30px;height:30px;padding:0 6px;border-radius:9px;background:var(--g50);color:var(--g700);font-weight:800;font-size:.8rem;display:grid;place-items:center;margin-top:20px;white-space:nowrap}
+  .rep-cells{flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px}
+  .rep-cell{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .rep-cell.wide{grid-column:span 2}
+  .rep-cell small{font-size:.74rem;font-weight:700;color:var(--muted)}
+  .rep-cell small b{color:var(--red);font-weight:700}
+  .rep-cell input,.rep-cell select{padding:8px 10px!important;font-size:.88rem!important}
+  .rep-cell .bad{border-color:var(--red)!important;background:#fffafa!important}
+  .rep-del{flex-shrink:0;margin-top:20px;width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;font-size:.85rem}
+  .rep-del:hover{border-color:var(--red);color:var(--red);background:var(--red-bg)}
+  .rep-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .rep-add{border:1.5px dashed color-mix(in srgb,var(--g600) 45%,#d9e1ea);background:var(--g50);color:var(--g700);border-radius:10px;padding:8px 16px;font:inherit;font-weight:700;font-size:.86rem;cursor:pointer;transition:all .15s}
+  .rep-add:hover{border-style:solid;border-color:var(--g600);background:#fff}
+  .rep-sum{font-size:.8rem;font-weight:700;color:var(--g700)}
+  .field.has-error .rep-row{border-color:#f2b8b8}
+  @media (max-width:700px){ .rep-cell.wide{grid-column:auto} .rep-cells{grid-template-columns:1fr 1fr} }
 
   /* Dépôt de fichiers */
   .drop{position:relative;display:flex;align-items:center;gap:14px;padding:18px;border:2px dashed color-mix(in srgb,var(--g600) 25%,#d9e1ea);border-radius:14px;
@@ -405,6 +426,11 @@
             <div class="err">هذا الحقل إجباري.</div>
           </div>
         </div>
+        <div class="field">
+          <label class="lbl">الشركاء</label>
+          <span class="hint">شريك واحد في كل سطر (اختياري) — <span class="counter" data-count-lines="شريك|شركاء">0 شريك</span></span>
+          <textarea name="entry.204067380" rows="3" placeholder="مثال: المجلس العلمي المحلي لوجدة"></textarea>
+        </div>
 
         <div class="field">
           <span class="lbl">الجمهور المستهدف</span>
@@ -459,13 +485,13 @@
           <div class="err">هذا الحقل إجباري.</div>
         </div>
         <div class="field">
-          <label class="lbl">الشركاء<span class="req">*</span></label>
-          <textarea name="entry.204067380" rows="2" required></textarea>
-          <div class="err">هذا الحقل إجباري.</div>
+          <label class="lbl">الشركاء</label>
+          <span class="hint">شريك واحد في كل سطر (اختياري) — <span class="counter" data-count-lines="شريك|شركاء">0 شريك</span></span>
+          <textarea name="entry.204067380" rows="3" placeholder="مثال: المجلس العلمي المحلي لوجدة"></textarea>
         </div>
         <div class="field">
           <label class="lbl">أسماء المتدخلين<span class="req">*</span></label>
-          <span class="hint">متدخل واحد في كل سطر — <span class="counter" data-count-lines="entry.233481276">0 متدخل</span></span>
+          <span class="hint">متدخل واحد في كل سطر — <span class="counter" data-count-lines="متدخل|متدخلين">0 متدخل</span></span>
           <textarea name="entry.233481276" rows="5" required></textarea>
           <div class="err">هذا الحقل إجباري.</div>
         </div>
@@ -553,6 +579,11 @@
             <span class="hint">نبذة مختصرة عن السيرة الذاتية.</span>
             <textarea name="entry.1237587309" rows="3"></textarea>
           </div>
+          <div class="field">
+          <label class="lbl">الشركاء</label>
+          <span class="hint">شريك واحد في كل سطر (اختياري) — <span class="counter" data-count-lines="شريك|شركاء">0 شريك</span></span>
+          <textarea name="entry.204067380" rows="3" placeholder="مثال: المجلس العلمي المحلي لوجدة"></textarea>
+        </div>
           <div class="row-2">
             <div class="field">
               <label class="lbl">المستهدفون من التكوين</label>
@@ -577,6 +608,7 @@
           <p>موعد النشاط، القاعة، لغات العمل، وورقة النشاط.</p>
         </div></div>
 
+        <div class="only-std">
         <div class="row-2">
           <div class="field">
             <label class="lbl" for="dateDebut">تاريخ البداية<span class="req">*</span></label>
@@ -600,6 +632,14 @@
             <input type="time" id="heureFin" name="x.heure_fin">
             <div class="err">توقيت النهاية يجب أن يكون بعد توقيت البداية.</div>
           </div>
+        </div>
+        </div>
+
+        <div class="field only-formation">
+          <span class="lbl">حصص التكوين<span class="req">*</span></span>
+          <span class="hint">الحصة الأولى إجبارية. أضيفوا الحصص الموالية حسب الحاجة؛ تُحتسب تواريخ البداية والنهاية تلقائيًا.</span>
+          <div class="rep" data-rep="sessions"></div>
+          <div class="err">يرجى إكمال معطيات الحصص (التاريخ وتوقيت البداية والنهاية).</div>
         </div>
 
         <div class="field">
@@ -683,7 +723,7 @@
       <div class="step" data-step="5" data-short="الإقامة">
         <div class="step-head"><div class="step-num">5</div><div>
           <h2>الإقامة والإطعام</h2>
-          <p>تظهر تفاصيل الإقامة فقط عند الحاجة إليها.</p>
+          <p>أضيفوا الأسطر حسب الحاجة: شخص لكل سطر للإقامة، ووجبة لكل سطر للإطعام.</p>
         </div></div>
 
         <div class="field">
@@ -695,25 +735,22 @@
           <div class="err">يرجى الإجابة عن هذا السؤال.</div>
         </div>
         <div class="field cond" data-show-if="entry.1919119586=نعم">
-          <label class="lbl">عدد الأشخاص المستفيدين من الإقامة<span class="req">*</span></label>
-          <input type="number" name="entry.136399314" min="1" max="200" inputmode="numeric" required style="max-width:200px">
-          <div class="err">يرجى إدخال عدد صحيح (1 على الأقل).</div>
+          <span class="lbl">المستفيدون من الإقامة<span class="req">*</span></span>
+          <span class="hint">سطر لكل شخص. يُحتسب عدد الليالي تلقائيًا.</span>
+          <div class="rep" data-rep="lodging"></div>
+          <div class="err">يرجى إضافة شخص واحد على الأقل وإكمال الاسم وتاريخي الوصول والمغادرة.</div>
         </div>
 
         <div class="field">
           <span class="lbl">الوجبات المطلوبة</span>
-          <div class="choices compact">
-            <label class="chip"><input type="checkbox" name="entry.595578012" value="استراحة شاي / قهوة">استراحة شاي / قهوة</label>
-            <label class="chip" data-colloque-only><input type="checkbox" name="entry.595578012" value="الإفطار ***خاص بالندوات***">الإفطار<span class="tag">الندوات</span></label>
-            <label class="chip" data-colloque-only><input type="checkbox" name="entry.595578012" value="الغداء ***خاص بالندوات***">الغداء<span class="tag">الندوات</span></label>
-            <label class="chip" data-colloque-only><input type="checkbox" name="entry.595578012" value="العشاء ***خاص بالندوات***">العشاء<span class="tag">الندوات</span></label>
-          </div>
+          <span class="hint">سطر لكل وجبة (اختياري). الإفطار والغداء والعشاء خاصة بالندوات والأيام الدراسية.</span>
+          <div class="rep" data-rep="meals"></div>
+          <div class="err">يرجى إكمال التاريخ ونوع الوجبة وعدد الأشخاص في كل سطر.</div>
         </div>
 
         <div class="field">
-          <label class="lbl">تفاصيل أخرى: أماكن الإقامة، عدد الأشخاص، أنواع الغرف</label>
-          <span class="hint">اتبعوا النمط: الإفطار: … / الغداء: … / العشاء: … / استراحة قهوة: …</span>
-          <textarea name="entry.2088943531" rows="4" placeholder="- الإفطار: ...&#10;- الغداء: ...&#10;- العشاء: ...&#10;- استراحة قهوة: ..."></textarea>
+          <label class="lbl">ملاحظات أخرى حول الإقامة والإطعام</label>
+          <textarea name="entry.2088943531" rows="2" placeholder="حمية غذائية، توقيت الوصول، مكان مفضل…"></textarea>
         </div>
       </div>
 
@@ -818,6 +855,14 @@ function applyConditions() {
     input.disabled = !isColloque;
     if (!isColloque) input.checked = false;
   });
+  const isFormation = activityType() === FORMATION;
+  $$(".only-std", form).forEach(el => { el.hidden = isFormation; $$("input,select,textarea", el).forEach(i => { i.disabled = isFormation; }); });
+  $$(".only-formation", form).forEach(el => { el.hidden = !isFormation; $$("input,select,textarea", el).forEach(i => { i.disabled = !isFormation; }); });
+  // Repas : petit-déjeuner, déjeuner et dîner réservés aux colloques
+  $$('.rep[data-rep="meals"] select[data-k="type"]', form).forEach(sel => {
+    $$("option", sel).forEach(o => { if (o.dataset.colloque) { o.disabled = !isColloque; } });
+    if (sel.selectedOptions[0]?.disabled) sel.value = "";
+  });
   const deb = $("#dateDebut").value;
   $("#dateFin").min = deb || "";
 }
@@ -891,7 +936,8 @@ function validateStep() {
   });
 
   // Date de fin >= date de début
-  if (flow[current] === "3") {
+  firstBad = validateRepeaters(stepEl) || firstBad;
+  if (flow[current] === "3" && !$("#dateDebut").disabled) {
     const d1 = $("#dateDebut").value, d2 = $("#dateFin").value;
     if (d1 && d2 && d2 < d1) { const f = $("#dateFin").closest(".field"); setError(f, true); firstBad ||= f; }
     const h1 = $("#heureDebut").value, h2 = $("#heureFin").value;
@@ -937,6 +983,8 @@ form.addEventListener("change", e => {
 });
 form.addEventListener("input", e => {
   e.target.closest(".field")?.classList.remove("has-error");
+  e.target.classList.remove("bad");
+  const rb = e.target.closest(".rep"); if (rb) updateRepSummary(rb.dataset.rep);
   updateCounters();
   saveDraft();
 });
@@ -944,9 +992,10 @@ form.addEventListener("input", e => {
 /* Compteur d'intervenants */
 function updateCounters() {
   $$("[data-count-lines]").forEach(c => {
-    const ta = form.querySelector(`[name="${c.dataset.countLines}"]`);
+    const ta = c.closest(".field").querySelector("textarea");
+    const [one, many] = c.dataset.countLines.split("|");
     const n = ta.value.split("\n").filter(l => l.trim()).length;
-    c.textContent = n + (n === 1 ? " متدخل" : " متدخلين");
+    c.textContent = n + " " + (n === 1 ? one : many);
   });
 }
 
@@ -983,7 +1032,25 @@ function collectFields() {
       else fields[el.name] = v;
     });
   });
+  if (activityType() === FORMATION) {
+    const ses = sortedSessions();
+    if (ses.length) {
+      const first = ses[0], last = ses[ses.length - 1];
+      fields["entry.647518802"] = first.date;
+      if (last.date !== first.date) fields["entry.1517983777"] = last.date; else delete fields["entry.1517983777"];
+      fields["x.heure_debut"] = first.from;
+      if (first.to) fields["x.heure_fin"] = first.to;
+    }
+  }
   return fields;
+}
+function collectTables() {
+  const lodgingOn = !!form.querySelector('input[name="entry.1919119586"][value="نعم"]:checked');
+  return {
+    sessions: activityType() === FORMATION ? sortedSessions() : [],
+    lodging: lodgingOn ? getRep("lodging") : [],
+    meals: getRep("meals")
+  };
 }
 
 /* ====== Récapitulatif ====== */
@@ -996,9 +1063,16 @@ function buildRecap() {
     const rows = [];
     $$(".field", stepEl).forEach(f => {
       if (f.classList.contains("cond") && !f.classList.contains("show")) return;
+      if (f.closest("[hidden]")) return;
       const lbl = f.querySelector(".lbl");
       if (!lbl) return;
       const title = lbl.textContent.replace("*", "").trim();
+      const repBoxEl = f.querySelector(".rep");
+      if (repBoxEl) {
+        const lines = getRep(repBoxEl.dataset.rep).map((r, j) => repLine(repBoxEl.dataset.rep, r, j));
+        if (lines.length) rows.push(`<dt>${esc(title)}</dt><dd>${esc(lines.join("\n"))}</dd>`);
+        return;
+      }
       let vals = [];
       $$("input,select,textarea", f).forEach(el => {
         if (el.disabled) return;
@@ -1023,6 +1097,7 @@ function saveDraft() {
       if (el.type === "checkbox" || el.type === "radio") { if (el.checked) (data[el.name] ||= []).push(el.value); }
       else if (el.value) data[el.name] = el.value;
     });
+    data.__rep = { sessions: getRep("sessions"), lodging: getRep("lodging"), meals: getRep("meals") };
     localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
   } catch (_) {}
 }
@@ -1038,12 +1113,14 @@ function restoreDraft() {
       if (el.type === "checkbox" || el.type === "radio") el.checked = [].concat(v).includes(el.value);
       else el.value = v;
     });
+    if (data.__rep) Object.keys(REPEATERS).forEach(k => setRep(k, data.__rep[k] || []));
     $("#draftBanner").hidden = false;
   } catch (_) {}
 }
 function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch (_) {} }
 $("#clearDraft").addEventListener("click", () => {
   clearDraft(); form.reset(); $$(".file-line button").forEach(b => b.click());
+  Object.keys(REPEATERS).forEach(k => setRep(k, []));
   $("#draftBanner").hidden = true; current = 0; maxReached = 0; updateCounters(); render();
 });
 
@@ -1076,6 +1153,7 @@ form.addEventListener("submit", async e => {
   try {
     const payload = {
       fields: collectFields(),
+      tables: collectTables(),
       fileFiche: await fileToBase64($("#fileFiche").files[0]),
       filePhoto: await fileToBase64($("#filePhoto").files[0])
     };
@@ -1292,10 +1370,166 @@ function receiveLogo(logo) {
   showLogo(logo.dataUrl);
 }
 
+/* ====== Tableaux à lignes variables : séances, hébergement, repas ====== */
+const FORMATION = "تكوين لفائدة الباحثين";
+const REPEATERS = {
+  sessions: { min: 1, add: "+ إضافة حصة", cols: [
+    { k: "date", t: "date", label: "التاريخ", req: true },
+    { k: "from", t: "time", label: "من", req: true },
+    { k: "to",   t: "time", label: "إلى", req: true } ] },
+  lodging: { min: 1, add: "+ إضافة شخص", cols: [
+    { k: "name",   t: "text", label: "الاسم الكامل", req: true, wide: true },
+    { k: "arrive", t: "date", label: "تاريخ الوصول", req: true },
+    { k: "leave",  t: "date", label: "تاريخ المغادرة", req: true },
+    { k: "room",   t: "select", label: "نوع الغرفة", opts: ["فردية", "مزدوجة", "أخرى"] },
+    { k: "place",  t: "text", label: "مكان الإقامة", ph: "الفندق أو العنوان" } ] },
+  meals: { min: 0, add: "+ إضافة وجبة", cols: [
+    { k: "date",  t: "date", label: "التاريخ", req: true },
+    { k: "type",  t: "select", label: "نوع الوجبة", req: true,
+      opts: ["استراحة شاي / قهوة", "فطور", "غداء", "عشاء"], colloqueOnly: ["فطور", "غداء", "عشاء"] },
+    { k: "count", t: "number", label: "عدد الأشخاص", req: true, min: 1 },
+    { k: "note",  t: "text", label: "ملاحظات", ph: "مثال: المتدخلون" } ] }
+};
+const repBox = k => form.querySelector(`.rep[data-rep="${k}"]`);
+const nightsTxt = n => n === 1 ? "ليلة واحدة" : n === 2 ? "ليلتان" : n <= 10 ? n + " ليالٍ" : n + " ليلة";
+const nightsOf = r => (r.arrive && r.leave) ? Math.max(0, Math.round((new Date(r.leave) - new Date(r.arrive)) / 864e5)) : 0;
+const minutesOf = r => { if (!r.from || !r.to) return 0; const [a, b] = r.from.split(":").map(Number), [c, d] = r.to.split(":").map(Number); return Math.max(0, c * 60 + d - a * 60 - b); };
+function fmtMinutes(m) {
+  const h = Math.floor(m / 60), mm = m % 60;
+  const hs = h === 0 ? "" : h === 1 ? "ساعة" : h === 2 ? "ساعتان" : h <= 10 ? h + " ساعات" : h + " ساعة";
+  return [hs, mm ? mm + " دقيقة" : ""].filter(Boolean).join(" و") || "0";
+}
+
+function rowHTML(k) {
+  const cfg = REPEATERS[k];
+  const cells = cfg.cols.map(c => {
+    const req = c.req ? "<b>*</b>" : "";
+    let input;
+    if (c.t === "select") {
+      input = `<select data-k="${c.k}"><option value="">—</option>${c.opts.map(o =>
+        `<option${(c.colloqueOnly || []).includes(o) ? ' data-colloque="1"' : ""}>${o}</option>`).join("")}</select>`;
+    } else {
+      input = `<input type="${c.t}" data-k="${c.k}"${c.min ? ` min="${c.min}"` : ""}${c.ph ? ` placeholder="${c.ph}"` : ""}${c.t === "number" ? ' inputmode="numeric"' : ""}>`;
+    }
+    return `<label class="rep-cell${c.wide ? " wide" : ""}"><small>${c.label}${req}</small>${input}</label>`;
+  }).join("");
+  return `<span class="rep-num"></span><div class="rep-cells">${cells}</div><button type="button" class="rep-del" title="حذف السطر" aria-label="حذف السطر">✕</button>`;
+}
+
+function addRow(k, values) {
+  const box = repBox(k);
+  const row = document.createElement("div");
+  row.className = "rep-row";
+  row.innerHTML = rowHTML(k);
+  if (values) Object.keys(values).forEach(key => { const i = row.querySelector(`[data-k="${key}"]`); if (i) i.value = values[key]; });
+  box.querySelector(".rep-rows").appendChild(row);
+  row.querySelector(".rep-del").addEventListener("click", () => {
+    const rows = $$(".rep-row", box);
+    if (rows.length <= 1) $$("[data-k]", row).forEach(i => { i.value = ""; i.classList.remove("bad"); });
+    else row.remove();
+    renumber(k); saveDraft();
+  });
+  renumber(k);
+  applyConditions();
+  return row;
+}
+
+function renumber(k) {
+  const prefix = k === "sessions" ? "ح" : "";
+  $$(".rep-row", repBox(k)).forEach((r, i) => { r.querySelector(".rep-num").textContent = prefix + (i + 1); });
+  updateRepSummary(k);
+}
+
+function getRep(k) {
+  const box = repBox(k);
+  if (!box) return [];
+  return $$(".rep-row", box).map(row => {
+    const o = {};
+    $$("[data-k]", row).forEach(i => { const v = String(i.value).trim(); if (v) o[i.dataset.k] = v; });
+    return o;
+  }).filter(o => Object.keys(o).length);
+}
+function setRep(k, list) {
+  const box = repBox(k);
+  if (!box) return;
+  box.querySelector(".rep-rows").innerHTML = "";
+  (list.length ? list : [null]).forEach(v => addRow(k, v));
+}
+function sortedSessions() {
+  return getRep("sessions").filter(s => s.date).sort((a, b) => (a.date + (a.from || "")).localeCompare(b.date + (b.from || "")));
+}
+
+function repLine(k, r, i) {
+  if (k === "sessions") return `الحصة ${i + 1}: ${r.date || "؟"} ${r.from || ""}–${r.to || ""}`;
+  if (k === "lodging") { const n = nightsOf(r); return `${r.name || "؟"}: ${r.arrive || "؟"} → ${r.leave || "؟"} (${nightsTxt(n)})${r.room ? " · غرفة " + r.room : ""}${r.place ? " · " + r.place : ""}`; }
+  return `${r.date || "؟"} · ${r.type || "؟"} × ${r.count || "؟"}${r.note ? " (" + r.note + ")" : ""}`;
+}
+
+function updateRepSummary(k) {
+  const box = repBox(k);
+  if (!box) return;
+  const list = getRep(k), out = box.querySelector(".rep-sum");
+  let txt = "";
+  if (k === "sessions" && list.length) {
+    const tot = list.reduce((a, r) => a + minutesOf(r), 0);
+    txt = `${list.length} ${list.length === 1 ? "حصة" : "حصص"}` + (tot ? ` — المدة الإجمالية: ${fmtMinutes(tot)}` : "");
+  } else if (k === "lodging" && list.length) {
+    const n = list.reduce((a, r) => a + nightsOf(r), 0);
+    txt = `${list.length} ${list.length === 1 ? "شخص" : "أشخاص"} — ${nightsTxt(n)} إجمالًا`;
+  } else if (k === "meals" && list.length) {
+    const n = list.reduce((a, r) => a + (+r.count || 0), 0);
+    txt = `${list.length} ${list.length === 1 ? "سطر" : "أسطر"} — ${n} وجبة إجمالًا`;
+  }
+  out.textContent = txt;
+}
+
+function initRepeaters() {
+  Object.keys(REPEATERS).forEach(k => {
+    const box = repBox(k);
+    if (!box) return;
+    box.innerHTML = `<div class="rep-rows" style="display:flex;flex-direction:column;gap:8px"></div>
+      <div class="rep-foot"><button type="button" class="rep-add">${REPEATERS[k].add}</button><span class="rep-sum"></span></div>`;
+    box.querySelector(".rep-add").addEventListener("click", () => {
+      const row = addRow(k);
+      row.querySelector("[data-k]").focus();
+      saveDraft();
+    });
+    addRow(k);
+  });
+}
+
+/** Vérifie les tableaux visibles de l'étape ; renvoie le premier champ en erreur. */
+function validateRepeaters(stepEl) {
+  let firstBad = null;
+  $$(".rep", stepEl).forEach(box => {
+    const field = box.closest(".field");
+    if (box.closest("[hidden]") || (field.classList.contains("cond") && !field.classList.contains("show"))) return;
+    const k = box.dataset.rep, cfg = REPEATERS[k];
+    let bad = false, filled = 0;
+    $$(".rep-row", box).forEach(row => {
+      const get = key => row.querySelector(`[data-k="${key}"]`);
+      const inputs = $$("[data-k]", row);
+      inputs.forEach(i => i.classList.remove("bad"));
+      if (!inputs.some(i => String(i.value).trim())) return;
+      filled++;
+      cfg.cols.forEach(c => {
+        const i = get(c.k);
+        if ((c.req && !String(i.value).trim()) || (c.min && i.value && +i.value < c.min)) { i.classList.add("bad"); bad = true; }
+      });
+      if (k === "sessions" && get("from").value && get("to").value && get("to").value <= get("from").value) { get("to").classList.add("bad"); bad = true; }
+      if (k === "lodging" && get("arrive").value && get("leave").value && get("leave").value <= get("arrive").value) { get("leave").classList.add("bad"); bad = true; }
+    });
+    if (filled < cfg.min) { bad = true; const first = box.querySelector("[data-k]"); first && first.classList.add("bad"); }
+    if (bad) { setError(field, true); firstBad ||= field; }
+  });
+  return firstBad;
+}
+
 /* ====== Démarrage ====== */
 initTheme();
 Object.keys(PICKERS).forEach(k => renderPicker(k, FALLBACK[k]));
 loadAssets();
+initRepeaters();
 restoreDraft();
 updateCounters();
 render();
