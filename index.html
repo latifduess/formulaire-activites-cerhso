@@ -123,7 +123,7 @@
   .tag{font-size:.68rem;font-weight:700;padding:1px 7px;border-radius:20px;background:var(--gold-l);color:var(--gold-d);margin-inline-start:auto;white-space:nowrap}
 
   /* Types d'activité */
-  .types{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .types{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px}
   .type{position:relative;cursor:pointer;border:2px solid var(--line);border-radius:16px;padding:18px 16px 16px;background:#fff;
     transition:all .2s;display:flex;flex-direction:column;gap:6px}
   .type input{position:absolute;opacity:0;pointer-events:none}
@@ -326,7 +326,7 @@
             <span class="lbl">الوحدة / الفريق المنظم<span class="req">*</span></span>
             <span class="hint">يمكن اختيار أكثر من وحدة في حالة التنظيم المشترك.</span>
             <div class="choices" data-required-group>
-              <label class="chip"><input type="checkbox" name="entry.556319853" value="هيئة المركز">هيئة المركز</label>
+              <label class="chip"><input type="checkbox" name="entry.556319853" value="اللجنة العلمية">اللجنة العلمية</label>
               <label class="chip"><input type="checkbox" name="entry.556319853" value="وحدة الدراسات اللغوية">وحدة الدراسات اللغوية</label>
               <label class="chip"><input type="checkbox" name="entry.556319853" value="وحدة الاجتهاد والتجديد ومستقبل الدين">وحدة الاجتهاد والتجديد ومستقبل الدين</label>
               <label class="chip"><input type="checkbox" name="entry.556319853" value="وحدة الدراسات الفنية">وحدة الدراسات الفنية</label>
@@ -379,6 +379,9 @@
             <label class="type"><input type="radio" name="entry.84700534" value="تكوين لفائدة الباحثين">
               <span class="ico"><svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5M22 9v6"/></svg></span>
               <strong>تكوين لفائدة الباحثين</strong><small>دورة تكوينية بمحاور وأهداف وهيئة تكوين</small></label>
+            <label class="type"><input type="radio" name="entry.84700534" value="اجتماع">
+              <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="4" rx="1"/><path d="M6 15v5M18 15v5"/><circle cx="7" cy="6" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="6" r="2"/></svg></span>
+              <strong>اجتماع</strong><small>اجتماع وحدة أو لجنة: التاريخ، عدد الحاضرين والحاجيات</small></label>
           </div>
           <div class="err">يرجى اختيار نوع النشاط.</div>
         </div>
@@ -531,6 +534,31 @@
         </div>
       </div>
 
+      <!-- ========== 2D. اجتماع ========== -->
+      <div class="step" data-step="2-reunion" data-short="تفاصيل الاجتماع">
+        <div class="step-head"><div class="step-num">2</div><div>
+          <h2>تفاصيل الاجتماع</h2>
+          <p>الوحدة المنظمة محددة في المرحلة الأولى؛ التاريخ والتوقيت والقاعة في المرحلة الموالية.</p>
+        </div></div>
+
+        <div class="field">
+          <label class="lbl">موضوع الاجتماع</label>
+          <input type="text" name="x.reunion_objet" placeholder="مثال: الاجتماع الدوري للوحدة — برمجة الفصل الثاني">
+        </div>
+        <div class="field">
+          <label class="lbl">عدد الحاضرين<span class="req">*</span></label>
+          <input type="number" name="x.reunion_presents" min="1" max="500" inputmode="numeric" required style="max-width:200px">
+          <div class="err">يرجى إدخال عدد الحاضرين (1 على الأقل).</div>
+        </div>
+        <div class="field">
+          <span class="lbl">الحاجيات</span>
+          <div class="choices compact">
+            <label class="chip"><input type="checkbox" name="x.reunion_besoins" value="ماء">ماء</label>
+            <label class="chip"><input type="checkbox" name="x.reunion_besoins" value="شاي / قهوة">شاي / قهوة</label>
+          </div>
+        </div>
+      </div>
+
       <!-- ========== 2C. تكوين لفائدة الباحثين ========== -->
       <div class="step" data-step="2-formation" data-short="تفاصيل النشاط">
         <div class="step-head"><div class="step-num">2</div><div>
@@ -649,7 +677,7 @@
           <div class="err">يرجى اختيار قاعة واحدة على الأقل.</div>
         </div>
 
-        <div class="field">
+        <div class="field no-meeting">
           <span class="lbl">لغات النشاط</span>
           <div class="choices compact">
             <label class="chip"><input type="checkbox" name="entry.1524086820" value="العربية">العربية</label>
@@ -660,7 +688,7 @@
           </div>
         </div>
 
-        <div class="field">
+        <div class="field no-meeting">
           <span class="lbl">ورقة النشاط</span>
           <label class="drop" id="dropFiche">
             <input type="file" id="fileFiche" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
@@ -690,7 +718,8 @@
         </div>
 
         <div class="field">
-          <span class="lbl">المحتوى المطلوب للتصميم والنشر (صورة المحاضر)</span>
+          <span class="lbl">المحتوى المطلوب للتصميم والنشر (صورة المحاضر)<span class="req" id="photoReq" hidden>*</span></span>
+          <span class="hint" id="photoHint" hidden>إجباري: لقد اخترتم نموذجًا للإطار أو للخلفية، يرجى إرفاق صورة المتدخل.</span>
           <label class="drop" id="dropPhoto">
             <input type="file" id="filePhoto" accept="image/*,.pdf,.zip,.rar">
             <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg></span>
@@ -832,8 +861,10 @@ let maxReached = 0;
 function activityType() {
   return form.querySelector(`input[name="${TYPE_FIELD}"]:checked`)?.value || "";
 }
+const MEETING = "اجتماع";
 function updateFlow() {
   const t = activityType();
+  if (t === MEETING) { flow = ["1", "2-reunion", "3", "6"]; return; }
   const s2 = t === COLLOQUE ? "2-colloque" : t === "تكوين لفائدة الباحثين" ? "2-formation" : "2-conference";
   flow = ["1", s2, "3", "4", "5", "6"];
 }
@@ -855,6 +886,8 @@ function applyConditions() {
     input.disabled = !isColloque;
     if (!isColloque) input.checked = false;
   });
+  const isMeeting = activityType() === MEETING;
+  $$(".no-meeting", form).forEach(el => { el.hidden = isMeeting; $$("input,select,textarea", el).forEach(i => { if (i.type !== "file") i.disabled = isMeeting; }); });
   const isFormation = activityType() === FORMATION;
   $$(".only-std", form).forEach(el => { el.hidden = isFormation; $$("input,select,textarea", el).forEach(i => { i.disabled = isFormation; }); });
   $$(".only-formation", form).forEach(el => { el.hidden = !isFormation; $$("input,select,textarea", el).forEach(i => { i.disabled = !isFormation; }); });
@@ -865,6 +898,12 @@ function applyConditions() {
   });
   const deb = $("#dateDebut").value;
   $("#dateFin").min = deb || "";
+  const need = photoRequired();
+  $("#photoReq").hidden = !need;
+  $("#photoHint").hidden = !need;
+}
+function photoRequired() {
+  return !!form.querySelector('input[name="entry.1722248890"]:checked, input[name="entry.779322566"]:checked');
 }
 
 /* ====== Stepper ====== */
@@ -902,6 +941,8 @@ function render() {
   nextBtn.hidden = last;
   submitBtn.hidden = !last;
   $("#stepCounter").textContent = `${current + 1} / ${flow.length}`;
+  const num = stepById(flow[current]).querySelector(".step-num");
+  if (num) num.textContent = current + 1;
   if (last) buildRecap();
   hideAlert();
 }
@@ -946,8 +987,16 @@ function validateStep() {
   // Taille des fichiers
   $$("input[type=file]", stepEl).forEach(inp => {
     const f = inp.files[0];
+    const errEl = inp.closest(".field").querySelector(".err");
+    if (errEl) errEl.textContent = "حجم الملف يتجاوز 10 ميغابايت.";
     if (f && f.size > MAX_FILE_MB * 1024 * 1024) { const fld = inp.closest(".field"); setError(fld, true); firstBad ||= fld; }
   });
+  // Photo de l'intervenant obligatoire dès qu'un cadre ou un arrière-plan est choisi
+  if (flow[current] === "4" && photoRequired() && !$("#filePhoto").files[0]) {
+    const fld = $("#filePhoto").closest(".field");
+    fld.querySelector(".err").textContent = "صورة المتدخل إجبارية عند اختيار نموذج الإطار أو الخلفية.";
+    setError(fld, true); firstBad ||= fld;
+  }
 
   if (firstBad) {
     showAlert("يرجى تصحيح الحقول المشار إليها باللون الأحمر قبل المتابعة.");
@@ -1048,8 +1097,8 @@ function collectTables() {
   const lodgingOn = !!form.querySelector('input[name="entry.1919119586"][value="نعم"]:checked');
   return {
     sessions: activityType() === FORMATION ? sortedSessions() : [],
-    lodging: lodgingOn ? getRep("lodging") : [],
-    meals: getRep("meals")
+    lodging: lodgingOn && flow.includes("5") ? getRep("lodging") : [],
+    meals: flow.includes("5") ? getRep("meals") : []
   };
 }
 
@@ -1154,8 +1203,8 @@ form.addEventListener("submit", async e => {
     const payload = {
       fields: collectFields(),
       tables: collectTables(),
-      fileFiche: await fileToBase64($("#fileFiche").files[0]),
-      filePhoto: await fileToBase64($("#filePhoto").files[0])
+      fileFiche: activityType() === MEETING ? null : await fileToBase64($("#fileFiche").files[0]),
+      filePhoto: flow.includes("4") ? await fileToBase64($("#filePhoto").files[0]) : null
     };
     // Corps en text/plain => requête "simple", pas de pré-vérification CORS,
     // et la réponse JSON d'Apps Script reste lisible (pas de mode no-cors).
