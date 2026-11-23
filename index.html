@@ -670,7 +670,7 @@
           <div class="err">يرجى إكمال معطيات الحصص (التاريخ وتوقيت البداية والنهاية).</div>
         </div>
 
-        <div class="field">
+        <div class="field no-meeting">
           <span class="lbl">القاعة<span class="req">*</span></span>
           <span class="hint">يمكن اختيار أكثر من قاعة. انقروا على 🔍 لتكبير الصورة.</span>
           <div class="pick-grid rooms-grid choices" id="roomsPicker" data-required-group></div>
@@ -795,8 +795,8 @@
           <div class="choices compact">
             <label class="chip"><input type="checkbox" name="entry.741983611" value="جهاز عرض وشاشة عرض">جهاز عرض وشاشة عرض</label>
             <label class="chip"><input type="checkbox" name="entry.741983611" value="نظام صوتي وميكروفونات (سلكية / لاسلكية)">نظام صوتي وميكروفونات</label>
-            <label class="chip"><input type="checkbox" name="entry.741983611" value="منصة وكراسي المنصة">منصة وكراسي المنصة</label>
-            <label class="chip"><input type="checkbox" name="entry.741983611" value="حاسوب محمول">حاسوب محمول</label>
+            <label class="chip no-meeting"><input type="checkbox" name="entry.741983611" value="منصة وكراسي المنصة">منصة وكراسي المنصة</label>
+            <label class="chip no-meeting"><input type="checkbox" name="entry.741983611" value="حاسوب محمول">حاسوب محمول</label>
             <label class="chip"><input type="checkbox" name="entry.741983611" value="ربط بالإنترنت (Wi-Fi)">ربط بالإنترنت (Wi-Fi)</label>
           </div>
         </div>
@@ -965,6 +965,7 @@ function validateStep() {
 
   $$("[data-required-group]", stepEl).forEach(group => {
     const field = group.closest(".field");
+    if (group.closest("[hidden]")) return;
     const ok = !!group.querySelector("input:checked");
     if (!ok) { setError(field, true); firstBad ||= field; }
   });
@@ -1073,7 +1074,7 @@ function collectFields() {
   const fields = {};
   flow.forEach(id => {
     $$("input[name],select[name],textarea[name]", stepById(id)).forEach(el => {
-      if (el.disabled) return;
+      if (el.disabled || el.closest("[hidden]")) return;
       if ((el.type === "checkbox" || el.type === "radio") && !el.checked) return;
       const v = String(el.value).trim();
       if (!v) return;
@@ -1301,6 +1302,7 @@ async function loadAssets() {
                : fromDrive.length ? fromDrive : FALLBACK[k];
     renderPicker(k, list);
   });
+  applyConditions();
   if (flow[current] === "6") buildRecap();
 }
 
