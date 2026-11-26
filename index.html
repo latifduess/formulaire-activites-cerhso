@@ -1234,7 +1234,7 @@ $("#newRequest").addEventListener("click", () => location.reload());
 /* ====== Choix illustrés : salles, cadres, fonds (photos lues depuis Drive par Apps Script) ====== */
 // Valeurs utilisées si les photos ne peuvent pas être chargées
 const FALLBACK = {
-  rooms: ["قاعات منار المعرفة 800", "القاعة المحاضرات 180", "الحلقات العلمية 100", "قاعة العروض 100", "قاعة التكوين 40"].map(l => ({ label: l })),
+  rooms: ["قاعات منار المعرفة 800", "قاعة المحاضرات 180", "قاعة الحلقات العلمية 100", "قاعة العروض 100", "قاعة التكوين 40"].map(l => ({ label: l })),
   frames: [1, 2, 3, 4].map(n => ({ label: "نموذج " + n })),
   backgrounds: Array.from({ length: 10 }, (_, i) => ({ label: "خلفية " + (i + 1) }))
 };
