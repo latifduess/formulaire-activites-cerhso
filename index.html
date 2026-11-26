@@ -1234,7 +1234,7 @@ $("#newRequest").addEventListener("click", () => location.reload());
 /* ====== Choix illustrés : salles, cadres, fonds (photos lues depuis Drive par Apps Script) ====== */
 // Valeurs utilisées si les photos ne peuvent pas être chargées
 const FALLBACK = {
-  rooms: ["القاعة الكبرى 800", "القاعة الجديدة 180", "الطابق الثالث 100", "قاعة العرض 100", "قاعة الاستوديو 40"].map(l => ({ label: l })),
+  rooms: ["قاعات منار المعرفة 800", "القاعة المحاضرات 180", "الحلقات العلمية 100", "قاعة العروض 100", "قاعة التكوين 40"].map(l => ({ label: l })),
   frames: [1, 2, 3, 4].map(n => ({ label: "نموذج " + n })),
   backgrounds: Array.from({ length: 10 }, (_, i) => ({ label: "خلفية " + (i + 1) }))
 };
@@ -1263,7 +1263,7 @@ function renderPicker(key, items, loading) {
       : NOIMG;
     const input = `<input type="${cfg.type}" name="${cfg.name}" value="${esc(value)}" data-label="${esc(value)}"${keep.includes(value) ? " checked" : ""}>`;
     if (key === "rooms") {
-      const m = value.match(/^(.*?)\s*(\d+)\s*$/);           // « القاعة الكبرى 800 » → nom + capacité
+      const m = value.match(/^(.*?)\s*(\d+)\s*$/);           // « قاعات منار المعرفة 800 » → nom + capacité
       const name = m ? m[1] : value, cap = m ? m[2] : "";
       return `<label class="pick">${input}<span class="thumb">${img}</span>
         <span class="pick-text"><strong>${esc(name)}</strong>${cap ? `<small>${SEAT}${cap} مقعد</small>` : ""}</span></label>`;
